@@ -448,6 +448,19 @@ section {
   margin-bottom: 1rem;
 }
 
+.plan-status {
+  display: inline-block;
+  margin-bottom: 1rem;
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--rose-deep);
+  background: rgba(212, 137, 122, 0.12);
+}
+
 .plan-features {
   list-style: none;
   margin-bottom: 1.6rem;
@@ -501,6 +514,13 @@ section {
 .plan-btn-fill:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 24px rgba(212, 137, 122, 0.45);
+}
+
+.plan-btn-disabled {
+  border: 1.5px dashed rgba(184, 97, 78, 0.45);
+  color: rgba(92, 61, 46, 0.6);
+  background: rgba(244, 221, 213, 0.25);
+  cursor: not-allowed;
 }
 
 .faq {
