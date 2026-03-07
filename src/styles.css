@@ -523,44 +523,6 @@ section {
   cursor: not-allowed;
 }
 
-.payment-flow {
-  background: var(--white);
-  padding-top: 1rem;
-}
-
-.payment-flow-inner {
-  max-width: 780px;
-  margin: 0 auto;
-  text-align: center;
-  background: var(--cream);
-  border: 1px solid rgba(212, 137, 122, 0.2);
-  border-radius: 24px;
-  padding: 2rem;
-}
-
-.payment-flow-inner h2 {
-  font-family: "Cormorant Garamond", serif;
-  font-size: clamp(1.8rem, 4vw, 2.6rem);
-  color: var(--warm-brown);
-  font-weight: 400;
-  margin-bottom: 0.7rem;
-}
-
-.payment-flow-inner > p {
-  color: var(--text-light);
-  line-height: 1.6;
-  margin-bottom: 1.2rem;
-}
-
-.payment-flow-inner .btn-primary {
-  display: inline-block;
-}
-
-.payment-note {
-  margin-top: 1rem;
-  font-size: 0.9rem;
-}
-
 .faq {
   background: var(--cream);
 }
