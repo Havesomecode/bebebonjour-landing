@@ -18,5 +18,5 @@
 
 ## 4. Validation
 
-- [ ] 4.1 Run a production build and confirm Vite output is generated for Vercel deployment.
+- [x] 4.1 Run a production build and confirm Vite output is generated for Vercel deployment.
 - [x] 4.2 Perform a final content and structure check against the capability spec.
