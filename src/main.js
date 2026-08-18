@@ -29,7 +29,7 @@ setupNavigation();
 form?.addEventListener("submit", async (event) => {
   event.preventDefault();
   if (!api) {
-    setFormMessage("Le parcours TEST-A local n’est pas configuré sur cette page.", true);
+    setFormMessage("Le parcours TEST-A n’est pas configuré sur cette page.", true);
     return;
   }
   const submitButton = form.querySelector("button[type='submit']");
@@ -97,10 +97,18 @@ function createTestApi() {
   try {
     return createFulfillmentClient({
       baseUrl: import.meta.env.VITE_FULFILLMENT_API_BASE_URL,
+      approvedHostedOrigin: import.meta.env.VITE_FULFILLMENT_API_APPROVED_HOSTED_ORIGIN,
+      getTestAccessToken: requestTestAccessToken,
     });
   } catch {
     return null;
   }
+}
+
+function requestTestAccessToken() {
+  return window.prompt(
+    "Jeton d’accès TEST-A (conservé uniquement en mémoire jusqu’au rechargement de la page) :",
+  );
 }
 
 function intakeFromForm(element) {

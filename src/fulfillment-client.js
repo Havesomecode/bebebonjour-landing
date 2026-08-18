@@ -4,6 +4,7 @@ const ERROR_MESSAGES = Object.freeze({
   origin_not_allowed: "Cette page ne peut pas accéder au service.",
   request_too_large: "La demande est trop volumineuse.",
   payment_correlation_failed: "Le paiement ne correspond pas à cette demande.",
+  test_access_required: "Le jeton d’accès TEST-A est requis pour continuer.",
 });
 
 export class FulfillmentApiError extends Error {
@@ -17,11 +18,15 @@ export class FulfillmentApiError extends Error {
 
 export function createFulfillmentClient({
   baseUrl,
+  approvedHostedOrigin,
+  getTestAccessToken,
   fetchImpl = globalThis.fetch,
   createId = () => globalThis.crypto.randomUUID(),
 } = {}) {
   if (typeof fetchImpl !== "function") throw new Error("A fetch implementation is required.");
-  const normalizedBaseUrl = loopbackOrigin(baseUrl);
+  const normalizedBaseUrl = apiBaseUrl(baseUrl, approvedHostedOrigin);
+  const isHosted = normalizedBaseUrl.startsWith("https://");
+  let testAccessToken = null;
   let pendingIntake = null;
 
   return {
@@ -70,6 +75,24 @@ export function createFulfillmentClient({
   async function request(pathname, options) {
     let response;
     const { retryNetworkOnce = false, ...fetchOptions } = options;
+    if (isHosted && testAccessToken === null) {
+      const candidate = typeof getTestAccessToken === "function" ? getTestAccessToken() : null;
+      const normalizedCandidate = typeof candidate === "string" ? candidate.trim() : "";
+      if (normalizedCandidate.length < 32) {
+        throw new FulfillmentApiError(
+          401,
+          "test_access_required",
+          ERROR_MESSAGES.test_access_required,
+        );
+      }
+      testAccessToken = normalizedCandidate;
+    }
+    if (isHosted) {
+      fetchOptions.headers = {
+        ...fetchOptions.headers,
+        "x-test-a-access-token": testAccessToken,
+      };
+    }
     for (let attempt = 0; attempt < (retryNetworkOnce ? 2 : 1); attempt += 1) {
       try {
         response = await fetchImpl(`${normalizedBaseUrl}${pathname}`, {
@@ -102,19 +125,44 @@ export function createFulfillmentClient({
   }
 }
 
-function loopbackOrigin(value) {
+function apiBaseUrl(value, approvedHostedOrigin) {
   let url;
   try {
     url = new URL(value);
   } catch {
-    throw new Error("TEST-A API base URL must be a loopback HTTP origin.");
+    throw invalidApiBaseUrl();
   }
-  if (url.protocol !== "http:"
-      || !["127.0.0.1", "localhost", "[::1]"].includes(url.hostname)
-      || url.username || url.password || url.pathname !== "/" || url.search || url.hash) {
-    throw new Error("TEST-A API base URL must be a loopback HTTP origin.");
+
+  const isOriginOnly = !url.username && !url.password
+    && url.pathname === "/" && !url.search && !url.hash;
+  const isLoopback = url.protocol === "http:"
+    && ["127.0.0.1", "localhost", "[::1]"].includes(url.hostname)
+    && isOriginOnly;
+  if (isLoopback) return url.origin;
+
+  let approvedOrigin;
+  try {
+    approvedOrigin = new URL(approvedHostedOrigin);
+  } catch {
+    throw invalidApiBaseUrl();
   }
-  return url.origin;
+  const isApprovedOrigin = approvedOrigin.protocol === "https:"
+    && !approvedOrigin.username && !approvedOrigin.password
+    && approvedOrigin.pathname === "/" && !approvedOrigin.search && !approvedOrigin.hash;
+  const isHostedBaseUrl = url.protocol === "https:"
+    && !url.username && !url.password
+    && ["/api/customer-flow", "/api/customer-flow/"].includes(url.pathname)
+    && !url.search && !url.hash;
+  if (!isApprovedOrigin || !isHostedBaseUrl || url.origin !== approvedOrigin.origin) {
+    throw invalidApiBaseUrl();
+  }
+  return `${url.origin}/api/customer-flow`;
+}
+
+function invalidApiBaseUrl() {
+  return new Error(
+    "TEST-A API base URL must be a loopback HTTP origin or the exact approved HTTPS origin.",
+  );
 }
 
 function encodeIdentifier(value) {

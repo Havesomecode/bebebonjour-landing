@@ -101,6 +101,104 @@ test("TEST-A client rejects non-loopback API origins", () => {
   }
 });
 
+test("hosted API uses the candidate route prefix for the exact approved HTTPS origin", async () => {
+  const calls = [];
+  const client = createFulfillmentClient({
+    baseUrl: "https://api.example.test/api/customer-flow",
+    approvedHostedOrigin: "https://api.example.test",
+    getTestAccessToken: () => "test-access-token-at-least-32-characters",
+    async fetchImpl(url, options) {
+      calls.push({ url, options });
+      return jsonResponse(201, {
+        jobId: "job_test_001",
+        intakeToken: "tok_test_private",
+        status: "payment_pending",
+      });
+    },
+  });
+
+  await client.submitIntake({ schemaVersion: "1.0" });
+
+  assert.equal(
+    calls[0].url,
+    "https://api.example.test/api/customer-flow/v1/intakes",
+  );
+});
+
+test("hosted commands reuse one in-memory TEST-A access token", async () => {
+  const calls = [];
+  let tokenRequests = 0;
+  const client = createFulfillmentClient({
+    baseUrl: "https://api.example.test/api/customer-flow",
+    approvedHostedOrigin: "https://api.example.test",
+    getTestAccessToken() {
+      tokenRequests += 1;
+      return "test-access-token-at-least-32-characters";
+    },
+    async fetchImpl(url, options) {
+      calls.push({ url, options });
+      if (url.endsWith("/v1/intakes")) {
+        return jsonResponse(201, {
+          jobId: "job_test_001",
+          intakeToken: "tok_test_private",
+          status: "payment_pending",
+        });
+      }
+      return jsonResponse(200, {
+        jobId: "job_test_001",
+        status: "payment_pending",
+        payment: "pending",
+        review: "not_ready",
+        delivery: "not_ready",
+      });
+    },
+  });
+
+  await client.submitIntake({ schemaVersion: "1.0" });
+  await client.getStatus("job_test_001", "tok_test_private");
+
+  assert.equal(tokenRequests, 1);
+  assert.deepEqual(
+    calls.map(({ options }) => options.headers["x-test-a-access-token"]),
+    [
+      "test-access-token-at-least-32-characters",
+      "test-access-token-at-least-32-characters",
+    ],
+  );
+});
+
+test("hosted API stops before the request when interactive TEST-A access is missing", async () => {
+  let fetchCalls = 0;
+  const client = createFulfillmentClient({
+    baseUrl: "https://api.example.test/api/customer-flow",
+    approvedHostedOrigin: "https://api.example.test",
+    getTestAccessToken: () => null,
+    async fetchImpl() {
+      fetchCalls += 1;
+      return jsonResponse(500, {});
+    },
+  });
+
+  await assert.rejects(
+    client.submitIntake({ schemaVersion: "1.0" }),
+    (error) => error instanceof FulfillmentApiError
+      && error.statusCode === 401
+      && error.code === "test_access_required"
+      && error.message === "Le jeton d’accès TEST-A est requis pour continuer.",
+  );
+  assert.equal(fetchCalls, 0);
+});
+
+test("hosted API rejects an HTTPS origin that is not the exact approved origin", () => {
+  assert.throws(
+    () => createFulfillmentClient({
+      baseUrl: "https://other.example.test/api/customer-flow",
+      approvedHostedOrigin: "https://api.example.test",
+    }),
+    /approved HTTPS origin/i,
+  );
+});
+
 test("an ambiguous intake failure keeps one idempotency key across automatic and manual retries", async () => {
   const calls = [];
   let createdIds = 0;
