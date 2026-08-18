@@ -36,8 +36,8 @@ loosening the loopback default. Configure both values to the same reviewed
 origin, with the customer-flow prefix present only in the base URL:
 
 ```bash
-VITE_FULFILLMENT_API_BASE_URL=https://api.example.test/api/customer-flow
-VITE_FULFILLMENT_API_APPROVED_HOSTED_ORIGIN=https://api.example.test
+VITE_FULFILLMENT_API_BASE_URL=https://bebebonjour-fulfillment.vercel.app/api/customer-flow
+VITE_FULFILLMENT_API_APPROVED_HOSTED_ORIGIN=https://bebebonjour-fulfillment.vercel.app
 ```
 
 The hosted API access token is never a Vite variable. The browser asks the
@@ -46,11 +46,10 @@ operator for it on the first hosted command, sends it as
 until the page is reloaded. Never place that token in an environment file,
 build command, URL, browser storage, log, or committed asset.
 
-This repository intentionally keeps Vercel's `Content-Security-Policy`
-`connect-src` at `'self'`. Activating a cross-origin candidate therefore also
-requires a separately reviewed change that names the exact approved HTTPS
-origin in that policy. This compatibility change does not activate a hosted
-endpoint, deploy, publish, send customer email, or permit live payment.
+This repository pins Vercel's `Content-Security-Policy` `connect-src` to
+`'self'` and the exact approved HTTPS origin above. This compatibility change
+does not activate a hosted endpoint, deploy, publish, send customer email, or
+permit live payment.
 
 ## Verification
 
