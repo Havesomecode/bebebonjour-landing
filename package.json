@@ -7,11 +7,18 @@
     "node": "^20.19.0 || >=22.12.0"
   },
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host 127.0.0.1",
+    "dev:local": "VITE_FULFILLMENT_API_BASE_URL=http://127.0.0.1:8787 vite --host 127.0.0.1",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "node --test",
+    "verify": "npm test && npm run build && npm audit"
   },
   "devDependencies": {
-    "vite": "8.2.0"
+    "vite": "6.4.3"
+  },
+  "overrides": {
+    "esbuild": "0.25.12",
+    "postcss": "8.5.26"
   }
 }

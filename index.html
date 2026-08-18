@@ -8,24 +8,12 @@
       name="description"
       content="Créez un faire-part de naissance en ligne, élégant et prêt à partager sur WhatsApp, SMS et email. Sans technique."
     />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500;700&display=swap"
-      rel="stylesheet"
-    />
     <script type="module" src="/src/main.js"></script>
   </head>
   <body>
     <nav>
       <div class="logo">Bonjour <span>Bébé</span></div>
-      <a
-        href="https://tally.so/r/BzXrDK"
-        target="_blank"
-        rel="noreferrer"
-        class="nav-cta"
-        >Créer mon faire-part</a
-      >
+      <a href="#commencer" class="nav-cta">Créer mon faire-part</a>
     </nav>
 
     <section class="hero">
@@ -39,20 +27,9 @@
           et facile à partager à toute la famille.
         </p>
         <div class="hero-actions">
-          <a
-            href="https://tally.so/r/BzXrDK"
-            target="_blank"
-            rel="noreferrer"
-            class="btn-primary"
-            >Créer mon faire-part</a
-          >
-          <a
-            href="https://happy-kohl-phi.vercel.app/ar?narration=on"
-            target="_blank"
-            rel="noreferrer"
-            class="btn-secondary"
-            >Voir un exemple</a
-          >
+          <a href="#commencer" class="btn-primary">Créer mon faire-part</a>
+          <a href="#apercu" class="btn-secondary">Voir un exemple</a>
+          <a href="/demo" class="btn-secondary">Voir la démo du parcours</a>
         </div>
         <div class="trust-line">
           <span>✅ Mobile-friendly</span>
@@ -102,18 +79,18 @@
         <div class="steps">
           <article class="step reveal">
             <div class="step-num">1</div>
-            <h3>Remplissez le questionnaire</h3>
-            <p>Quelques infos clés dans Tally pour cadrer votre besoin.</p>
+            <h3>Partagez les détails</h3>
+            <p>Un formulaire privé crée votre demande avant tout paiement.</p>
           </article>
           <article class="step reveal">
             <div class="step-num">2</div>
-            <h3>Finalisez votre commande</h3>
-            <p>Paiement sécurisé depuis la page thank-you (lien aussi reçu par email).</p>
+            <h3>Suivez la création</h3>
+            <p>Le paiement test, la création et la relecture restent liés à la même demande.</p>
           </article>
           <article class="step reveal">
             <div class="step-num">3</div>
-            <h3>Partagez</h3>
-            <p>Envoyez votre lien à vos proches sur WhatsApp, SMS ou email.</p>
+            <h3>Recevez le lien relu</h3>
+            <p>Le lien stable n’est envoyé qu’après paiement et validation éditoriale.</p>
           </article>
         </div>
       </div>
@@ -129,11 +106,7 @@
               <li>Guide pas à pas</li>
               <li>Mise en ligne rapide</li>
             </ul>
-            <a
-              href="https://tally.so/r/BzXrDK"
-              target="_blank"
-              rel="noreferrer"
-              class="plan-btn plan-btn-outline"
+            <a href="#commencer" class="plan-btn plan-btn-outline"
               >Remplir le questionnaire</a
             >
           </article>
@@ -167,25 +140,112 @@
       </div>
     </section>
 
-    <section class="payment-flow">
-      <div class="payment-flow-inner reveal">
-        <p class="section-label">Après le questionnaire Tally</p>
-        <h2>🎉 Votre demande est bien reçue</h2>
-        <p>
-          Pour lancer votre commande tout de suite, finalisez le paiement
-          sécurisé ci-dessous.
+    <section class="intake" id="commencer">
+      <div class="intake-inner reveal">
+        <p class="section-label">Créer votre demande</p>
+        <h2>Quelques détails, gardés privés</h2>
+        <p class="test-boundary" role="note">
+          Parcours local TEST-A : utilisez uniquement des informations synthétiques
+          et une adresse en <strong>.test</strong>. Aucun paiement ni email réel n’est envoyé.
         </p>
-        <a
-          href="https://buy.stripe.com/3cI6oHevQ7Fy7HS9SA2Ry00"
-          target="_blank"
-          rel="noreferrer"
-          class="btn-primary"
-          >Finaliser ma commande</a
-        >
-        <p class="payment-note">
-          Ce même lien est repris sur la page thank-you Tally. Pas maintenant ?
-          On vous l’envoie aussi par email.
-        </p>
+
+        <form id="intake-form" class="intake-form">
+          <fieldset>
+            <legend>Votre contact</legend>
+            <label>
+              Email synthétique
+              <input
+                name="email"
+                type="email"
+                autocomplete="off"
+                placeholder="parent@example.test"
+                pattern=".+@.+\.test"
+                required
+              />
+            </label>
+            <label class="check-row">
+              <input name="consent" type="checkbox" required />
+              J’autorise le traitement local de ces données synthétiques pour ce test.
+            </label>
+          </fieldset>
+
+          <fieldset>
+            <legend>Le bébé</legend>
+            <div class="field-grid">
+              <label>
+                Prénom synthétique
+                <input name="firstName" maxlength="100" placeholder="Amal Test" required />
+              </label>
+              <label>
+                Prénom en arabe (facultatif)
+                <input name="nameArabic" maxlength="100" dir="rtl" />
+              </label>
+              <label>
+                Genre grammatical
+                <select name="gender" required>
+                  <option value="girl">Fille</option>
+                  <option value="boy">Garçon</option>
+                  <option value="neutral">Neutre</option>
+                </select>
+              </label>
+              <label>
+                Date synthétique (facultatif)
+                <input name="birthDate" type="date" />
+              </label>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Langues et narration</legend>
+            <div class="choice-row" aria-label="Langues">
+              <label class="check-row"><input name="languages" type="checkbox" value="fr" checked /> Français</label>
+              <label class="check-row"><input name="languages" type="checkbox" value="ar" /> Arabe</label>
+            </div>
+            <div class="field-grid">
+              <label class="check-row">
+                <input name="voiceEnabled" type="checkbox" checked />
+                Ajouter une narration
+              </label>
+              <label>
+                Voix souhaitée
+                <select name="voiceGender">
+                  <option value="male">Masculine</option>
+                  <option value="female">Féminine</option>
+                  <option value="neutral">Neutre</option>
+                </select>
+              </label>
+              <label>
+                Contexte (facultatif)
+                <select name="religion">
+                  <option value="">Sans précision</option>
+                  <option value="islam">Islam</option>
+                  <option value="christianity">Christianisme</option>
+                  <option value="judaism">Judaïsme</option>
+                  <option value="other">Autre</option>
+                </select>
+              </label>
+            </div>
+            <label>
+              Demande particulière (facultatif)
+              <textarea name="request" maxlength="2000" rows="4"></textarea>
+            </label>
+          </fieldset>
+
+          <button type="submit" class="btn-primary">Créer ma demande test</button>
+          <p id="form-message" class="form-message" role="status" aria-live="polite"></p>
+        </form>
+
+        <section id="job-status" class="job-status" aria-live="polite" hidden>
+          <p class="section-label">Suivi de la demande</p>
+          <h3 id="status-title">Demande créée</h3>
+          <p id="status-copy"></p>
+          <p class="job-reference">Référence : <code id="job-reference"></code></p>
+          <div class="status-actions">
+            <button id="refresh-status" type="button" class="btn-secondary">Actualiser</button>
+            <button id="create-checkout" type="button" class="btn-primary">Ouvrir le paiement test</button>
+            <a id="announcement-link" class="btn-primary" rel="noreferrer" hidden>Voir le faire-part relu</a>
+          </div>
+        </section>
       </div>
     </section>
 
@@ -222,13 +282,7 @@
     <section class="final-cta">
       <h2>Cette naissance mérite une annonce à la hauteur.</h2>
       <p>Simple. Élégante. Inoubliable.</p>
-      <a
-        href="https://tally.so/r/BzXrDK"
-        target="_blank"
-        rel="noreferrer"
-        class="btn-primary"
-        >Je lance mon faire-part maintenant</a
-      >
+      <a href="#commencer" class="btn-primary">Je lance mon faire-part maintenant</a>
     </section>
 
     <footer>
