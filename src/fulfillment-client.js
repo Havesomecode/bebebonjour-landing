@@ -7,6 +7,8 @@ const ERROR_MESSAGES = Object.freeze({
   test_access_required: "Le jeton d’accès TEST-A est requis pour continuer.",
 });
 
+const CANONICAL_HOSTED_API_BASE_URL = "https://bebebonjour-fulfillment.vercel.app/api/customer-flow";
+
 export class FulfillmentApiError extends Error {
   constructor(statusCode, code, message) {
     super(message);
@@ -18,13 +20,12 @@ export class FulfillmentApiError extends Error {
 
 export function createFulfillmentClient({
   baseUrl,
-  approvedHostedOrigin,
   getTestAccessToken,
   fetchImpl = globalThis.fetch,
   createId = () => globalThis.crypto.randomUUID(),
 } = {}) {
   if (typeof fetchImpl !== "function") throw new Error("A fetch implementation is required.");
-  const normalizedBaseUrl = apiBaseUrl(baseUrl, approvedHostedOrigin);
+  const normalizedBaseUrl = apiBaseUrl(baseUrl);
   const isHosted = normalizedBaseUrl.startsWith("https://");
   let testAccessToken = null;
   let pendingIntake = null;
@@ -125,7 +126,7 @@ export function createFulfillmentClient({
   }
 }
 
-function apiBaseUrl(value, approvedHostedOrigin) {
+function apiBaseUrl(value) {
   let url;
   try {
     url = new URL(value);
@@ -140,28 +141,13 @@ function apiBaseUrl(value, approvedHostedOrigin) {
     && isOriginOnly;
   if (isLoopback) return url.origin;
 
-  let approvedOrigin;
-  try {
-    approvedOrigin = new URL(approvedHostedOrigin);
-  } catch {
-    throw invalidApiBaseUrl();
-  }
-  const isApprovedOrigin = approvedOrigin.protocol === "https:"
-    && !approvedOrigin.username && !approvedOrigin.password
-    && approvedOrigin.pathname === "/" && !approvedOrigin.search && !approvedOrigin.hash;
-  const isHostedBaseUrl = url.protocol === "https:"
-    && !url.username && !url.password
-    && ["/api/customer-flow", "/api/customer-flow/"].includes(url.pathname)
-    && !url.search && !url.hash;
-  if (!isApprovedOrigin || !isHostedBaseUrl || url.origin !== approvedOrigin.origin) {
-    throw invalidApiBaseUrl();
-  }
-  return `${url.origin}/api/customer-flow`;
+  if (value === CANONICAL_HOSTED_API_BASE_URL) return CANONICAL_HOSTED_API_BASE_URL;
+  throw invalidApiBaseUrl();
 }
 
 function invalidApiBaseUrl() {
   return new Error(
-    "TEST-A API base URL must be a loopback HTTP origin or the exact approved HTTPS origin.",
+    "TEST-A API base URL must be a loopback HTTP origin or the exact canonical hosted API base URL.",
   );
 }
 

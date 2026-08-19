@@ -31,14 +31,16 @@ separate recorded authorization.
 
 ## Hosted TEST-A candidate (gated)
 
-The client can target one explicitly approved HTTPS API candidate without
-loosening the loopback default. Configure both values to the same reviewed
-origin, with the customer-flow prefix present only in the base URL:
+The client can target one immutable HTTPS API candidate without loosening the
+loopback default. Configure its exact canonical base URL:
 
 ```bash
 VITE_FULFILLMENT_API_BASE_URL=https://bebebonjour-fulfillment.vercel.app/api/customer-flow
-VITE_FULFILLMENT_API_APPROVED_HOSTED_ORIGIN=https://bebebonjour-fulfillment.vercel.app
 ```
+
+The canonical hosted base is pinned in executable source. Any other HTTPS value,
+including the landing's own origin or an equal operator-provided override, safely
+disables the TEST-A client instead of activating a different host.
 
 The hosted API access token is never a Vite variable. The browser asks the
 operator for it on the first hosted command, sends it as

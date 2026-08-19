@@ -97,7 +97,6 @@ function createTestApi() {
   try {
     return createFulfillmentClient({
       baseUrl: import.meta.env.VITE_FULFILLMENT_API_BASE_URL,
-      approvedHostedOrigin: import.meta.env.VITE_FULFILLMENT_API_APPROVED_HOSTED_ORIGIN,
       getTestAccessToken: requestTestAccessToken,
     });
   } catch {

@@ -5,6 +5,10 @@ import test from "node:test";
 const html = await readFile(new URL("../index.html", import.meta.url), "utf8");
 const css = await readFile(new URL("../src/styles.css", import.meta.url), "utf8");
 const main = await readFile(new URL("../src/main.js", import.meta.url), "utf8");
+const fulfillmentClient = await readFile(
+  new URL("../src/fulfillment-client.js", import.meta.url),
+  "utf8",
+);
 const readme = await readFile(new URL("../README.md", import.meta.url), "utf8");
 const vercel = JSON.parse(
   await readFile(new URL("../vercel.json", import.meta.url), "utf8"),
@@ -26,11 +30,11 @@ test("landing exposes the synthetic workflow without replacing the TEST-A intake
   assert.match(html, /id="intake-form"/);
 });
 
-test("hosted TEST-A configuration requires an approved origin and interactive access token", () => {
-  assert.match(
-    main,
-    /approvedHostedOrigin:\s*import\.meta\.env\.VITE_FULFILLMENT_API_APPROVED_HOSTED_ORIGIN/,
-  );
+test("hosted TEST-A configuration pins the API base in executable source", () => {
+  assert.doesNotMatch(main, /VITE_FULFILLMENT_API_APPROVED_HOSTED_ORIGIN/);
+  assert.match(fulfillmentClient, new RegExp(
+    `const CANONICAL_HOSTED_API_BASE_URL = ${JSON.stringify(`${hostedOrigin}/api/customer-flow`)}`,
+  ));
   assert.match(main, /getTestAccessToken:\s*requestTestAccessToken/);
   assert.match(main, /window\.prompt\(/);
   assert.doesNotMatch(main, /VITE_[A-Z_]*TEST_ACCESS_TOKEN/);
@@ -38,12 +42,11 @@ test("hosted TEST-A configuration requires an approved origin and interactive ac
 
 test("hosted TEST-A configuration remains pinned to the canonical API origin", () => {
   const assignments = [...readme.matchAll(
-    /^VITE_FULFILLMENT_API_(?:BASE_URL|APPROVED_HOSTED_ORIGIN)=\S+$/gm,
+    /^VITE_FULFILLMENT_API_[A-Z_]+=\S+$/gm,
   )].map(([assignment]) => assignment);
 
   assert.deepEqual(assignments, [
     `VITE_FULFILLMENT_API_BASE_URL=${hostedOrigin}/api/customer-flow`,
-    `VITE_FULFILLMENT_API_APPROVED_HOSTED_ORIGIN=${hostedOrigin}`,
   ]);
 });
 
@@ -81,7 +84,7 @@ test("Vercel CSP permits only self and the canonical hosted API connection", () 
 test("hosted TEST-A operating notes preserve the synthetic-only privacy boundary", () => {
   assert.match(html, /uniquement des informations synthétiques/);
   assert.match(html, /Aucun paiement réel ni email client n’est envoyé/);
-  assert.match(readme, /VITE_FULFILLMENT_API_APPROVED_HOSTED_ORIGIN/);
+  assert.doesNotMatch(readme, /VITE_FULFILLMENT_API_APPROVED_HOSTED_ORIGIN/);
   assert.match(readme, /memory only/i);
   assert.match(readme, /Content-Security-Policy/);
 });
