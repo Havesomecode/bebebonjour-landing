@@ -25,7 +25,7 @@ test("public landing speaks as a finished service rather than a test harness", (
 });
 
 test("public landing has one real intake path and one customer-facing example", () => {
-  const intakeLinks = [...html.matchAll(/href="https:\/\/tally\.so\/r\/BzXrDK"/g)];
+  const intakeLinks = [...html.matchAll(/href="https:\/\/tally\.so\/r\/D49r2j"/g)];
   assert.ok(intakeLinks.length >= 2, "primary and offer CTAs should share the intake path");
   assert.match(html, /href="\/demo\/announcements\/bayane\/fr\/"/);
   assert.doesNotMatch(html, /href="\/demo"(?:\s|>)/);

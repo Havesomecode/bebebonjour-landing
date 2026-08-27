@@ -20,7 +20,7 @@ test("public landing exposes no provider, operator, or hidden test controls", ()
   assert.doesNotMatch(html, /buy\.stripe\.com|bebebonjour-fulfillment|id="intake-form"|id="job-status"/i);
   assert.doesNotMatch(main, /createFulfillmentClient|window\.prompt|sessionStorage/i);
   assert.doesNotMatch(css, /https?:\/\//i);
-  assert.match(html, /https:\/\/tally\.so\/r\/BzXrDK/);
+  assert.match(html, /https:\/\/tally\.so\/r\/D49r2j/);
 });
 
 test("the synthetic proof route remains unlinked while customer examples remain reachable", () => {
