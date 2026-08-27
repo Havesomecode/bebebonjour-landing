@@ -16,41 +16,27 @@ const vercel = JSON.parse(
 
 const hostedOrigin = "https://bebebonjour-fulfillment.vercel.app";
 
-test("static landing cannot expose legacy provider links or hidden gated actions", () => {
-  assert.doesNotMatch(html, /tally\.so|buy\.stripe\.com/i);
-  assert.doesNotMatch(html, /https?:\/\//i);
+test("public landing exposes no provider, operator, or hidden test controls", () => {
+  assert.doesNotMatch(html, /buy\.stripe\.com|bebebonjour-fulfillment|id="intake-form"|id="job-status"/i);
+  assert.doesNotMatch(main, /createFulfillmentClient|window\.prompt|sessionStorage/i);
   assert.doesNotMatch(css, /https?:\/\//i);
-  assert.match(css, /\[hidden\]\s*\{[^}]*display:\s*none\s*!important/s);
-  assert.match(main, /const delivered = status\.status === "complete"/);
-  assert.match(main, /announcementLink\.hidden\s*=\s*!delivered/);
+  assert.match(html, /https:\/\/tally\.so\/r\/BzXrDK/);
 });
 
-test("landing exposes the synthetic workflow without replacing the TEST-A intake", () => {
-  assert.match(html, /href="\/demo"[^>]*>Voir la démo du parcours<\/a>/);
-  assert.match(html, /id="intake-form"/);
+test("the synthetic proof route remains unlinked while customer examples remain reachable", () => {
+  assert.doesNotMatch(html, /href="\/demo"(?:\s|>)/);
+  assert.match(html, /href="\/demo\/announcements\/bayane\/fr\/"/);
 });
 
-test("hosted TEST-A configuration pins the API base in executable source", () => {
-  assert.doesNotMatch(main, /VITE_FULFILLMENT_API_APPROVED_HOSTED_ORIGIN/);
+test("dormant hosted client remains pinned but is absent from the public bundle entry", () => {
   assert.match(fulfillmentClient, new RegExp(
     `const CANONICAL_HOSTED_API_BASE_URL = ${JSON.stringify(`${hostedOrigin}/api/customer-flow`)}`,
   ));
-  assert.match(main, /getTestAccessToken:\s*requestTestAccessToken/);
-  assert.match(main, /window\.prompt\(/);
+  assert.doesNotMatch(main, /fulfillment-client/);
   assert.doesNotMatch(main, /VITE_[A-Z_]*TEST_ACCESS_TOKEN/);
 });
 
-test("hosted TEST-A configuration remains pinned to the canonical API origin", () => {
-  const assignments = [...readme.matchAll(
-    /^VITE_FULFILLMENT_API_[A-Z_]+=\S+$/gm,
-  )].map(([assignment]) => assignment);
-
-  assert.deepEqual(assignments, [
-    `VITE_FULFILLMENT_API_BASE_URL=${hostedOrigin}/api/customer-flow`,
-  ]);
-});
-
-test("Vercel CSP permits only self and the canonical hosted API connection", () => {
+test("public CSP permits first-party runtime resources only", () => {
   const cspHeaders = vercel.headers
     .flatMap(({ headers }) => headers)
     .filter(({ key }) => key === "Content-Security-Policy");
@@ -65,12 +51,10 @@ test("Vercel CSP permits only self and the canonical hosted API connection", () 
     directiveEntries.length,
   );
 
-  const directives = Object.fromEntries(directiveEntries);
-
-  assert.deepEqual(directives, {
+  assert.deepEqual(Object.fromEntries(directiveEntries), {
     "default-src": ["'self'"],
     "base-uri": ["'self'"],
-    "connect-src": ["'self'", hostedOrigin],
+    "connect-src": ["'self'"],
     "font-src": ["'self'"],
     "form-action": ["'self'"],
     "frame-ancestors": ["'none'"],
@@ -81,9 +65,7 @@ test("Vercel CSP permits only self and the canonical hosted API connection", () 
   });
 });
 
-test("hosted TEST-A operating notes preserve the synthetic-only privacy boundary", () => {
-  assert.match(html, /uniquement des informations synthétiques/);
-  assert.match(html, /Aucun paiement réel ni email client n’est envoyé/);
+test("internal operating notes keep the hosted boundary explicit", () => {
   assert.doesNotMatch(readme, /VITE_FULFILLMENT_API_APPROVED_HOSTED_ORIGIN/);
   assert.match(readme, /memory only/i);
   assert.match(readme, /Content-Security-Policy/);

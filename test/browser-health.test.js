@@ -7,7 +7,7 @@ import { createServer } from "node:net";
 import { after, before, test } from "node:test";
 
 const routes = [
-  { path: "/", title: "Bonjour Bébé" },
+  { path: "/", title: "Bébé Bonjour" },
   { path: "/demo", title: "Démonstration synthétique" },
   { path: "/demo/announcements/amal/fr/", title: "Amal" },
   { path: "/demo/announcements/amal/ar/", title: "Amal" },
@@ -209,6 +209,19 @@ async function openTarget(url, viewport) {
     expression: "document.title",
     returnByValue: true,
   });
+  const layout = await client.send("Runtime.evaluate", {
+    expression: `(() => ({
+      clientWidth: document.documentElement.clientWidth,
+      scrollWidth: document.documentElement.scrollWidth,
+      h1Height: Math.round(document.querySelector("h1")?.getBoundingClientRect().height || 0),
+      primaryActionHeights: [...document.querySelectorAll(".button")]
+        .map((element) => Math.round(element.getBoundingClientRect().height)),
+      missingFragments: [...document.querySelectorAll('a[href^="#"]')]
+        .map((element) => element.getAttribute("href"))
+        .filter((href) => href !== "#" && !document.querySelector(href)),
+    }))()`,
+    returnByValue: true,
+  });
 
   client.close();
   await fetch(`${browserDebugOrigin}/json/close/${target.id}`);
@@ -219,6 +232,7 @@ async function openTarget(url, viewport) {
     httpErrors,
     requestOrigins: [...requestOrigins],
     responseCount,
+    layout: layout.result.value,
     title: title.result.value,
   };
 }
@@ -296,6 +310,23 @@ test("all first-party routes load without same-origin HTTP or console errors", a
       assert.deepEqual(result.failedRequests, [], `${viewport.name} ${route.path} failed requests`);
       assert.deepEqual(result.consoleErrors, [], `${viewport.name} ${route.path} console errors`);
       assert.deepEqual(result.requestOrigins, [origin], `${viewport.name} ${route.path} request origins`);
+      if (route.path === "/") {
+        assert.equal(
+          result.layout.scrollWidth,
+          result.layout.clientWidth,
+          `${viewport.name} landing must not overflow horizontally`,
+        );
+        assert.ok(result.layout.h1Height > 0, `${viewport.name} landing heading must render`);
+        assert.ok(
+          result.layout.primaryActionHeights.every((height) => height >= 44),
+          `${viewport.name} primary actions must retain 44px touch targets`,
+        );
+        assert.deepEqual(
+          result.layout.missingFragments,
+          [],
+          `${viewport.name} landing fragment links must resolve`,
+        );
+      }
     }
   }
 
