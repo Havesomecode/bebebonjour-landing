@@ -370,6 +370,7 @@ h1 {
 .section-heading h2,
 .offer h2,
 .reassurance h2,
+.questions h2,
 .closing h2 {
   margin-bottom: 0;
   font-size: clamp(2.7rem, 5vw, 5rem);
@@ -489,6 +490,67 @@ h1 {
   margin-bottom: 0;
   color: var(--ink-soft);
   line-height: 1.75;
+}
+
+.questions {
+  border-top: 1px solid var(--line);
+}
+
+.questions .section-heading {
+  margin-bottom: clamp(2rem, 5vw, 4rem);
+}
+
+.question-list {
+  border-top: 1px solid var(--line);
+}
+
+.question-list details {
+  border-bottom: 1px solid var(--line);
+}
+
+.question-list summary {
+  display: flex;
+  min-height: 64px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1.35rem 0;
+  color: var(--ink);
+  cursor: pointer;
+  font-family: var(--serif);
+  font-size: clamp(1.25rem, 2.2vw, 1.7rem);
+  font-weight: 480;
+  list-style: none;
+}
+
+.question-list summary::-webkit-details-marker {
+  display: none;
+}
+
+.question-list summary::after {
+  content: "+";
+  flex: 0 0 auto;
+  color: var(--clay);
+  font-family: var(--sans);
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.question-list details[open] summary::after {
+  content: "−";
+}
+
+.question-list details p {
+  max-width: 780px;
+  margin: 0;
+  padding: 0 3rem 1.6rem 0;
+  color: var(--ink-soft);
+  line-height: 1.72;
+}
+
+.question-list summary:focus-visible {
+  outline: 3px solid var(--forest);
+  outline-offset: 4px;
 }
 
 .closing {

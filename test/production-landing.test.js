@@ -59,6 +59,19 @@ test("every external intake link is isolated from the landing window", () => {
   }
 });
 
+test("support guidance covers intake confirmation, bounded retry, review, and privacy", () => {
+  assert.match(html, /id="questions"/);
+  assert.match(html, /Lorsque le formulaire confirme l’envoi, votre demande est prise en charge\./i);
+  assert.match(html, /ne transmettez pas une seconde demande\./i);
+  assert.match(html, /Aucune carte n’est demandée dans le formulaire\./i);
+  assert.match(html, /Uniquement pour préparer, relire et livrer votre annonce\./i);
+  assert.match(html, /Après votre validation finale\./i);
+});
+
+test("the copyright year has a no-JavaScript fallback", () => {
+  assert.match(html, /<span data-year>2026<\/span>/);
+});
+
 test("landing uses the warm editorial design system without gradient decoration", () => {
   assert.match(css, /--paper:\s*#[0-9a-f]{6}/i);
   assert.match(css, /--ink:\s*#[0-9a-f]{6}/i);
