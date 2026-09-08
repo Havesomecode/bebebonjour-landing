@@ -37,6 +37,28 @@ test("landing removes unsupported social proof and unavailable-plan clutter", ()
   assert.match(html, /39(?:&nbsp;|\s*)€/);
 });
 
+test("intake states the no-automatic-payment boundary", () => {
+  assert.match(html, /La demande ne déclenche aucun paiement automatique\./i);
+  assert.match(html, /Nous vous confirmons la suite avant toute étape payante\./i);
+  assert.doesNotMatch(publicSurface, /buy\.stripe\.com|checkout|carte bancaire/i);
+});
+
+test("customer journey promises only private review and approval-gated delivery", () => {
+  assert.match(html, /Nous préparons votre aperçu en privé\./i);
+  assert.match(html, /Rien n’est publié ni envoyé sans votre accord\./i);
+  assert.match(html, /Le délai dépend du contenu\s+et des langues choisies\./i);
+  assert.doesNotMatch(publicSurface, /espace client|suivre ma demande|bebebonjour-ops/i);
+});
+
+test("every external intake link is isolated from the landing window", () => {
+  const intakeLinks = [...html.matchAll(/<a[\s\S]*?href="https:\/\/tally\.so\/r\/D49r2j"[\s\S]*?<\/a>/g)];
+  assert.ok(intakeLinks.length >= 2);
+  for (const [link] of intakeLinks) {
+    assert.match(link, /target="_blank"/);
+    assert.match(link, /rel="[^"]*noopener[^"]*noreferrer[^"]*"/);
+  }
+});
+
 test("landing uses the warm editorial design system without gradient decoration", () => {
   assert.match(css, /--paper:\s*#[0-9a-f]{6}/i);
   assert.match(css, /--ink:\s*#[0-9a-f]{6}/i);

@@ -208,6 +208,13 @@ h1 {
   width: 100%;
 }
 
+.offer-note {
+  margin: 1rem 0 0;
+  color: var(--ink-soft);
+  font-size: 0.78rem;
+  line-height: 1.55;
+}
+
 .text-link {
   display: inline-flex;
   min-height: 44px;

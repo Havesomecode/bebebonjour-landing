@@ -1,6 +1,18 @@
 # Bébé Bonjour landing
 
-First-party Vite landing and synthetic TEST-A intake client.
+First-party Vite landing for `https://bebebonjour.com`, with dormant local and
+synthetic verification clients kept outside the public entrypoint.
+
+## Current production boundary
+
+- Public CTAs route only to the production Tally form `D49r2j`.
+- Tally is intake only; submitting the form does not trigger an automatic charge.
+- The canonical private Operations console is not a customer-facing status portal
+  and must never be linked from the public landing.
+- Stripe remains in test mode. No live checkout or charge path belongs in this build.
+- The customer-facing status and review URL is not frozen. Do not invent or publish
+  one until the Operations/worker release records an exact reviewed contract.
+- Publication, delivery, and customer email remain explicit downstream gates.
 
 ## Local-only customer flow
 
@@ -29,10 +41,11 @@ request, email, payment, deployment, or production mutation. Hosted Convex,
 Stripe test mode, Resend test mode, Vercel previews, and production all require
 separate recorded authorization.
 
-## Hosted TEST-A candidate (gated)
+## Dormant hosted compatibility client
 
-The client can target one immutable HTTPS API candidate without loosening the
-loopback default. Configure its exact canonical base URL:
+The excluded compatibility client can target one immutable HTTPS API candidate
+without loosening the loopback default. It is not part of the public customer
+journey. Configure its exact canonical base URL only for bounded verification:
 
 ```bash
 VITE_FULFILLMENT_API_BASE_URL=https://bebebonjour-fulfillment.vercel.app/api/customer-flow

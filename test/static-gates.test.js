@@ -70,3 +70,10 @@ test("internal operating notes keep the hosted boundary explicit", () => {
   assert.match(readme, /memory only/i);
   assert.match(readme, /Content-Security-Policy/);
 });
+
+test("release notes distinguish the live intake from unfrozen customer workflow contracts", () => {
+  assert.match(readme, /Public CTAs route only to the production Tally form `D49r2j`/i);
+  assert.match(readme, /private Operations console is not a customer-facing status portal/i);
+  assert.match(readme, /Stripe remains in test mode/i);
+  assert.match(readme, /customer-facing status and review URL is not frozen/i);
+});
