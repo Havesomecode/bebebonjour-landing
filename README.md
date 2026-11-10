@@ -1,6 +1,25 @@
 # Bébé Bonjour landing
 
-First-party Vite landing and synthetic TEST-A intake client.
+First-party Vite landing for `https://bebebonjour.com`, with dormant local and
+synthetic verification clients kept outside the public entrypoint.
+
+## Current production boundary
+
+- All four public CTAs use `/delivery`, which temporarily redirects to the owned
+  Convex intake at `https://tacit-antelope-577.convex.site/delivery`.
+- Intake requires consent and the complimentary offer password. It creates a
+  payment waiver, not a payment record; there is no automatic payment or charge.
+- The canonical private Operations console is not a customer-facing status portal
+  and must never be linked from the public landing.
+- No checkout or payment-provider controls belong in this landing build.
+- First-version composition, optional Cedar narration, publication, and the first
+  customer email run automatically before human review. A correction regenerates
+  the announcement; owner approval gates the final email, not initial publication.
+- The announcement is a non-indexed shareable capability: anyone with its link
+  can view it. Email addresses and review links remain private. Never embed a
+  customer capability, review URL, or operator URL in the public landing.
+- Existing first-party CSP headers and `/demo`/SPA rewrites remain unchanged;
+  navigating to the intake is a redirect, not a client-side API request.
 
 ## Local-only customer flow
 
@@ -12,33 +31,28 @@ Start the memory-only API from `../bebebonjour-app`:
 npm run dev:customer-flow
 ```
 
-Then start this landing:
-
-```bash
-npm run dev:local
-```
-
-Open `http://127.0.0.1:5173`, use only invented details and an email ending
-in `.test`, and stop both processes when finished. The opaque intake token is
-kept in tab-scoped `sessionStorage`; it is never placed in a URL. The browser can
-create or inspect its own job and request its reusable checkout session, but it
-cannot record payment, editorial approval, publication, or delivery.
+The compatibility client is not imported by the public landing; the local API
+is exercised through its own synthetic tests, not the public customer interface.
+The landing's `/demo` is a separate, static synthetic playback.
 
 The TEST-A server uses memory and local adapters only. It sends no provider
 request, email, payment, deployment, or production mutation. Hosted Convex,
 Stripe test mode, Resend test mode, Vercel previews, and production all require
 separate recorded authorization.
 
-## Hosted TEST-A candidate (gated)
+## Dormant hosted compatibility client
 
-The client can target one explicitly approved HTTPS API candidate without
-loosening the loopback default. Configure both values to the same reviewed
-origin, with the customer-flow prefix present only in the base URL:
+The excluded compatibility client can target one immutable HTTPS API candidate
+without loosening the loopback default. It is not part of the public customer
+journey. Configure its exact canonical base URL only for bounded verification:
 
 ```bash
-VITE_FULFILLMENT_API_BASE_URL=https://api.example.test/api/customer-flow
-VITE_FULFILLMENT_API_APPROVED_HOSTED_ORIGIN=https://api.example.test
+VITE_FULFILLMENT_API_BASE_URL=https://bebebonjour-fulfillment.vercel.app/api/customer-flow
 ```
+
+The canonical hosted base is pinned in executable source. Any other HTTPS value,
+including the landing's own origin or an equal operator-provided override, safely
+disables the TEST-A client instead of activating a different host.
 
 The hosted API access token is never a Vite variable. The browser asks the
 operator for it on the first hosted command, sends it as
@@ -46,11 +60,10 @@ operator for it on the first hosted command, sends it as
 until the page is reloaded. Never place that token in an environment file,
 build command, URL, browser storage, log, or committed asset.
 
-This repository intentionally keeps Vercel's `Content-Security-Policy`
-`connect-src` at `'self'`. Activating a cross-origin candidate therefore also
-requires a separately reviewed change that names the exact approved HTTPS
-origin in that policy. This compatibility change does not activate a hosted
-endpoint, deploy, publish, send customer email, or permit live payment.
+This repository pins Vercel's `Content-Security-Policy` `connect-src` to
+`'self'` only. The dormant client above is excluded from the public entrypoint. It
+does not activate a hosted endpoint, deploy, publish, send customer email, or
+permit live payment.
 
 ## Verification
 

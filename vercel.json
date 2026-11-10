@@ -29,6 +29,13 @@
       ]
     }
   ],
+  "redirects": [
+    {
+      "source": "/delivery",
+      "destination": "https://tacit-antelope-577.convex.site/delivery",
+      "permanent": false
+    }
+  ],
   "rewrites": [
     {
       "source": "/demo",

@@ -1,0 +1,152 @@
+[
+  {
+    "path": "demo.html",
+    "uid": "b6094351f92d2b9db3dd0244f17c8dd58c15bbc1",
+    "sha256": "234f7d28d2e8f61c50e97332bc1f3bb29ee028ee23b69458433399c6edd2a597"
+  },
+  {
+    "path": "index.html",
+    "uid": "eb088cca9504bdf80a1d62c520e7b5414d6762a5",
+    "sha256": "75a20baa26d9ca239b8b6707501fd344c22c3da82dbb83b0a3860a07a592a8c6"
+  },
+  {
+    "path": "package-lock.json",
+    "uid": "0efa907f490fd35dd2aa3c90a26da892012af753",
+    "sha256": "7eb360fdba04ca286835c51674cbeaf860a7e20b1e1f3bc6a5aa91a80940d96a"
+  },
+  {
+    "path": "package.json",
+    "uid": "f02d91c7eff94cf290b366126f9e4ae51acd9707",
+    "sha256": "3bda5e98414e91a78cfc267ec03a5d76bced4ab8b9ae9e9df2ba56c6936aa725"
+  },
+  {
+    "path": "public/demo/announcements/amal/_assets/blessed-arrival-1-0-0-r1/app.js",
+    "uid": "4e9075a3d5d55f3d6db8ea9d5297c2efc5f958ee",
+    "sha256": "d28f8fbcf2f230208925d5dbd72580f1d68981c6945b88c7811b1feec0da4c3f"
+  },
+  {
+    "path": "public/demo/announcements/amal/_assets/blessed-arrival-1-0-0-r1/og-image.svg",
+    "uid": "b275eacff57907e62a41c90e10f7fdfe29c52c78",
+    "sha256": "965ed528c4dae9bd05240d0a2be7f7304f1262ec825dcad8d4d4a923f707cc73"
+  },
+  {
+    "path": "public/demo/announcements/amal/_assets/blessed-arrival-1-0-0-r1/phrase-progress.mjs",
+    "uid": "afd41ebd63817e46373c5cb41b2cacec6f42afea",
+    "sha256": "2cb7610d323d657eb12d02771611d0f4c044c29447627fa9dd669efc9bdd9e21"
+  },
+  {
+    "path": "public/demo/announcements/amal/_assets/blessed-arrival-1-0-0-r1/styles.css",
+    "uid": "946a3859c3466c4e5739eddb5bf0bb5bbf430566",
+    "sha256": "a6d56be8edf0c4ada5026ed26611a5357e98d31b1dc69caf7d548f13877a1b8d"
+  },
+  {
+    "path": "public/demo/announcements/amal/ar/index.html",
+    "uid": "05b3313bb102638838331ab244b3997d74b0a8fd",
+    "sha256": "1e42a1c921ac6f186fd23541200f5ce3f0ef59fd77d26d9d796af3fecb8853a3"
+  },
+  {
+    "path": "public/demo/announcements/amal/fr/index.html",
+    "uid": "98ddb18f102e8c469760e4acb17ceaae89e59b44",
+    "sha256": "26607880b97a2dd336c334340c00c39e509cbf04d1ac4c5a091d8e1bde1d0d1e"
+  },
+  {
+    "path": "public/demo/announcements/amal/page.json",
+    "uid": "889cf3214c04f9a9b5bdc93ab82130b631812da1",
+    "sha256": "bece5df44231472efd07cbf2492c20a73e72774a91945d8dc8bd07ac28ddee1a"
+  },
+  {
+    "path": "public/demo/announcements/amal/transcript.json",
+    "uid": "8d67074a88a177c680bf84f026ca23749e39d57e",
+    "sha256": "76d5f30881d45756cd29f410fb0b105b7a745ceea39fb6456a6635d234a718c6"
+  },
+  {
+    "path": "public/demo/announcements/bayane/_assets/blessed-arrival-1-0-0-r1/app.js",
+    "uid": "4e9075a3d5d55f3d6db8ea9d5297c2efc5f958ee",
+    "sha256": "d28f8fbcf2f230208925d5dbd72580f1d68981c6945b88c7811b1feec0da4c3f"
+  },
+  {
+    "path": "public/demo/announcements/bayane/_assets/blessed-arrival-1-0-0-r1/og-image.svg",
+    "uid": "b275eacff57907e62a41c90e10f7fdfe29c52c78",
+    "sha256": "965ed528c4dae9bd05240d0a2be7f7304f1262ec825dcad8d4d4a923f707cc73"
+  },
+  {
+    "path": "public/demo/announcements/bayane/_assets/blessed-arrival-1-0-0-r1/phrase-progress.mjs",
+    "uid": "afd41ebd63817e46373c5cb41b2cacec6f42afea",
+    "sha256": "2cb7610d323d657eb12d02771611d0f4c044c29447627fa9dd669efc9bdd9e21"
+  },
+  {
+    "path": "public/demo/announcements/bayane/_assets/blessed-arrival-1-0-0-r1/styles.css",
+    "uid": "946a3859c3466c4e5739eddb5bf0bb5bbf430566",
+    "sha256": "a6d56be8edf0c4ada5026ed26611a5357e98d31b1dc69caf7d548f13877a1b8d"
+  },
+  {
+    "path": "public/demo/announcements/bayane/ar/index.html",
+    "uid": "3015773015a57f8f38820d8ce87a1fa00f8ce377",
+    "sha256": "24df413fe445e8164ebf637dd509e5eea76bac040b901186d2b8e818a9bae700"
+  },
+  {
+    "path": "public/demo/announcements/bayane/fr/index.html",
+    "uid": "323549c428a28f50b56495e08172d190fa9866e7",
+    "sha256": "a334e3fd549dc66d973ff738bdf3b6d748b5eada88796af470cab41802fe5887"
+  },
+  {
+    "path": "public/demo/announcements/bayane/page.json",
+    "uid": "4be2b4af24699b1c05bc06222cbc6fd91948365e",
+    "sha256": "ea01c59411f74c1716058e7d0aba0d8a0a838d948fed455aae38b0e0a0dbcc74"
+  },
+  {
+    "path": "public/demo/announcements/bayane/transcript.json",
+    "uid": "6a192084dfb851958a5e475ebbf5a8f244badad6",
+    "sha256": "27b7ec06866fbc0d5f9190b6e31a35dec137b2c20bdccfc34adfcd57bc52adef"
+  },
+  {
+    "path": "public/demo/workflow.json",
+    "uid": "8862e19f97432e55d7ffcaa577c4869c8dfbbaf6",
+    "sha256": "0f07af8f281c9e61ee893e72ec7c8d3e111ec666ed0d0811c06f5240f0b33fa5"
+  },
+  {
+    "path": "public/favicon.ico",
+    "uid": "aca49dd3a9d300ed127d9a3fb06e4994777bcc6b",
+    "sha256": "51c58a73d69e35f5f87fc5d3ef78bc257459209547c4c15b48b32ed2299917f6"
+  },
+  {
+    "path": "src/demo-playback.js",
+    "uid": "59c9403e84267f1cb722349d1e020fe2570062b2",
+    "sha256": "63a7dd0d853a9e47de8da20b59c235ff439131c255a4b4adbc356d68931c3d1b"
+  },
+  {
+    "path": "src/demo.css",
+    "uid": "83f1cbbae71404bcfa5d30ffe31fe3c53b316d1b",
+    "sha256": "3e949b96a180337335389c0db69712fb4857bddaab858cfc1005ceba399f8ba9"
+  },
+  {
+    "path": "src/demo.js",
+    "uid": "f11c4bd9e26e956cc2e0e8eff69d3df3e2ef2a34",
+    "sha256": "7aae854952df32e85680cbffb27523d2cf546b650948cc8bdbdd98aa46d20a8b"
+  },
+  {
+    "path": "src/fulfillment-client.js",
+    "uid": "d71a82b48b29378d2be11572c94154b990b464d7",
+    "sha256": "705fad26a5633803de7574b20046401cd5d53fc81b5918d98a134fdc0f96c9d9"
+  },
+  {
+    "path": "src/main.js",
+    "uid": "06ff435bd12b22c39935828023402a1c5ff08412",
+    "sha256": "167b6e4598215171523c1422c7c739e22b5b6908afb88c0cffbac91195bf703a"
+  },
+  {
+    "path": "src/styles.css",
+    "uid": "0a513c968106b5636c333332bc98eb50e74e2f38",
+    "sha256": "ad02633c0376fcbee5465fc4e7e9768e4b724ccd4f89add3a658a42ab877bda6"
+  },
+  {
+    "path": "vercel.json",
+    "uid": "d057eaa9472a8efbe1be95df8cbc4456da87fd5f",
+    "sha256": "01df1f8dfe4cffe8f1c99526bd4c5ce6b4c4dc126e23d42ef397d530a9f3f851"
+  },
+  {
+    "path": "vite.config.js",
+    "uid": "dc3b184f10823ace415187a6d4dfb8e735b39c5e",
+    "sha256": "1f0b5a8305389ad10716860af21cebc0f2864700ff93d57fc83bf8cb1861ecb8"
+  }
+]

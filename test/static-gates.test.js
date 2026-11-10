@@ -5,36 +5,91 @@ import test from "node:test";
 const html = await readFile(new URL("../index.html", import.meta.url), "utf8");
 const css = await readFile(new URL("../src/styles.css", import.meta.url), "utf8");
 const main = await readFile(new URL("../src/main.js", import.meta.url), "utf8");
+const fulfillmentClient = await readFile(
+  new URL("../src/fulfillment-client.js", import.meta.url),
+  "utf8",
+);
 const readme = await readFile(new URL("../README.md", import.meta.url), "utf8");
+const vercel = JSON.parse(
+  await readFile(new URL("../vercel.json", import.meta.url), "utf8"),
+);
 
-test("static landing cannot expose legacy provider links or hidden gated actions", () => {
-  assert.doesNotMatch(html, /tally\.so|buy\.stripe\.com/i);
-  assert.doesNotMatch(html, /https?:\/\//i);
+const hostedOrigin = "https://bebebonjour-fulfillment.vercel.app";
+
+test("public landing exposes no provider, operator, or hidden test controls", () => {
+  assert.doesNotMatch(html, /buy\.stripe\.com|bebebonjour-fulfillment|id="intake-form"|id="job-status"/i);
+  assert.doesNotMatch(main, /createFulfillmentClient|window\.prompt|sessionStorage/i);
   assert.doesNotMatch(css, /https?:\/\//i);
-  assert.match(css, /\[hidden\]\s*\{[^}]*display:\s*none\s*!important/s);
-  assert.match(main, /const delivered = status\.status === "complete"/);
-  assert.match(main, /announcementLink\.hidden\s*=\s*!delivered/);
+  assert.doesNotMatch(html, /tally\.so/i);
+  assert.equal([...html.matchAll(/href="\/delivery"/g)].length, 4);
 });
 
-test("landing exposes the synthetic workflow without replacing the TEST-A intake", () => {
-  assert.match(html, /href="\/demo"[^>]*>Voir la démo du parcours<\/a>/);
-  assert.match(html, /id="intake-form"/);
+test("the synthetic proof route remains unlinked while customer examples remain reachable", () => {
+  assert.doesNotMatch(html, /href="\/demo"(?:\s|>)/);
+  assert.match(html, /href="\/demo\/announcements\/bayane\/fr\/"/);
 });
 
-test("hosted TEST-A configuration requires an approved origin and interactive access token", () => {
-  assert.match(
-    main,
-    /approvedHostedOrigin:\s*import\.meta\.env\.VITE_FULFILLMENT_API_APPROVED_HOSTED_ORIGIN/,
-  );
-  assert.match(main, /getTestAccessToken:\s*requestTestAccessToken/);
-  assert.match(main, /window\.prompt\(/);
+test("dormant hosted client remains pinned but is absent from the public bundle entry", () => {
+  assert.match(fulfillmentClient, new RegExp(
+    `const CANONICAL_HOSTED_API_BASE_URL = ${JSON.stringify(`${hostedOrigin}/api/customer-flow`)}`,
+  ));
+  assert.doesNotMatch(main, /fulfillment-client/);
   assert.doesNotMatch(main, /VITE_[A-Z_]*TEST_ACCESS_TOKEN/);
 });
 
-test("hosted TEST-A operating notes preserve the synthetic-only privacy boundary", () => {
-  assert.match(html, /uniquement des informations synthétiques/);
-  assert.match(html, /Aucun paiement réel ni email client n’est envoyé/);
-  assert.match(readme, /VITE_FULFILLMENT_API_APPROVED_HOSTED_ORIGIN/);
+test("public CSP permits first-party runtime resources only", () => {
+  const cspHeaders = vercel.headers
+    .flatMap(({ headers }) => headers)
+    .filter(({ key }) => key === "Content-Security-Policy");
+  assert.equal(cspHeaders.length, 1);
+
+  const directiveEntries = cspHeaders[0].value.split(";").map((directive) => {
+    const [name, ...sources] = directive.trim().split(/\s+/);
+    return [name, sources];
+  });
+  assert.equal(
+    new Set(directiveEntries.map(([name]) => name)).size,
+    directiveEntries.length,
+  );
+
+  assert.deepEqual(Object.fromEntries(directiveEntries), {
+    "default-src": ["'self'"],
+    "base-uri": ["'self'"],
+    "connect-src": ["'self'"],
+    "font-src": ["'self'"],
+    "form-action": ["'self'"],
+    "frame-ancestors": ["'none'"],
+    "img-src": ["'self'", "data:"],
+    "object-src": ["'none'"],
+    "script-src": ["'self'"],
+    "style-src": ["'self'", "'unsafe-inline'"],
+  });
+});
+
+test("internal operating notes keep the hosted boundary explicit", () => {
+  assert.doesNotMatch(readme, /VITE_FULFILLMENT_API_APPROVED_HOSTED_ORIGIN/);
   assert.match(readme, /memory only/i);
   assert.match(readme, /Content-Security-Policy/);
+});
+
+test("release notes identify the real intake, waiver, and automatic first-version boundary", () => {
+  assert.match(readme, /All four public CTAs use `\/delivery`/i);
+  assert.match(readme, /https:\/\/tacit-antelope-577\.convex\.site\/delivery/);
+  assert.match(readme, /private Operations console is not a customer-facing status portal/i);
+  assert.match(readme, /payment waiver, not a payment record/i);
+  assert.match(readme, /automatically before human review/i);
+  assert.match(readme, /owner approval gates the final email/i);
+  assert.match(readme, /Email addresses and review links remain private/i);
+});
+
+test("delivery redirects to the exact Convex intake without altering existing SPA routes", () => {
+  assert.deepEqual(vercel.redirects, [{
+    source: "/delivery",
+    destination: "https://tacit-antelope-577.convex.site/delivery",
+    permanent: false,
+  }]);
+  assert.deepEqual(vercel.rewrites, [
+    { source: "/demo", destination: "/demo.html" },
+    { source: "/(.*)", destination: "/index.html" },
+  ]);
 });
