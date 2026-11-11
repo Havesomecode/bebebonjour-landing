@@ -13,6 +13,12 @@ Use Node 20.19+ or 22.12+. `npm ci` installs dependencies; `npm run dev` serves 
 - Preserve the existing CSP and `/demo` and SPA rewrites. The demo uses fictional profiles and must not contact providers or analytics. Keep the hosted compatibility client out of the public entrypoint; never put its access token in URLs, build variables, storage, logs or assets.
 - Hosted verification, deployment, DNS, live payment, email, TTS and publication require separate authorization. Consult the current README before changing the customer flow.
 
+## Shared workspace rules
+
+Read and follow the shared workspace policy for every project, including projects with real users.
+
+@/home/hermes/repos/prompts-lib/AGENTS_WORKSPACE.md
+
 ## Shared building rules
 
 Read the shared file below before changing this project. Its development rules apply only if the project has no real users yet; confirm that status before applying them. Existing project-specific security, data-preservation, and release requirements still apply.
