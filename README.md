@@ -3,6 +3,10 @@
 First-party Vite landing for `https://bebebonjour.com`, with dormant local and
 synthetic verification clients kept outside the public entrypoint.
 
+Cloudflare candidate, exact published-source provenance, local verification and
+release/rollback boundaries: [CLOUDFLARE-PREPARATION.md](CLOUDFLARE-PREPARATION.md).
+No Cloudflare production cutover has been performed by this preparation.
+
 ## Current production boundary
 
 - All four public CTAs use `/delivery`, which temporarily redirects to the owned
