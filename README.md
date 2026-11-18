@@ -45,7 +45,7 @@ cannot record payment, editorial approval, publication, or delivery.
 
 The TEST-A server uses memory and local adapters only. It sends no provider
 request, email, payment, deployment, or production mutation. Hosted Convex,
-Stripe test mode, Resend test mode, Vercel previews, and production all require
+Stripe test mode, Cloudflare Email test sends, Vercel previews, and production all require
 separate recorded authorization.
 
 ## Dormant hosted compatibility client
