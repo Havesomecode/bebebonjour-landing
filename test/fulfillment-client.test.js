@@ -6,6 +6,8 @@ import {
   createFulfillmentClient,
 } from "../src/fulfillment-client.js";
 
+const canonicalHostedApiBaseUrl = "https://bebebonjour-fulfillment.vercel.app/api/customer-flow";
+
 function jsonResponse(status, body) {
   return new Response(JSON.stringify(body), {
     status,
@@ -104,8 +106,7 @@ test("TEST-A client rejects non-loopback API origins", () => {
 test("hosted API uses the candidate route prefix for the exact approved HTTPS origin", async () => {
   const calls = [];
   const client = createFulfillmentClient({
-    baseUrl: "https://api.example.test/api/customer-flow",
-    approvedHostedOrigin: "https://api.example.test",
+    baseUrl: canonicalHostedApiBaseUrl,
     getTestAccessToken: () => "test-access-token-at-least-32-characters",
     async fetchImpl(url, options) {
       calls.push({ url, options });
@@ -121,7 +122,7 @@ test("hosted API uses the candidate route prefix for the exact approved HTTPS or
 
   assert.equal(
     calls[0].url,
-    "https://api.example.test/api/customer-flow/v1/intakes",
+    `${canonicalHostedApiBaseUrl}/v1/intakes`,
   );
 });
 
@@ -129,8 +130,7 @@ test("hosted commands reuse one in-memory TEST-A access token", async () => {
   const calls = [];
   let tokenRequests = 0;
   const client = createFulfillmentClient({
-    baseUrl: "https://api.example.test/api/customer-flow",
-    approvedHostedOrigin: "https://api.example.test",
+    baseUrl: canonicalHostedApiBaseUrl,
     getTestAccessToken() {
       tokenRequests += 1;
       return "test-access-token-at-least-32-characters";
@@ -170,8 +170,7 @@ test("hosted commands reuse one in-memory TEST-A access token", async () => {
 test("hosted API stops before the request when interactive TEST-A access is missing", async () => {
   let fetchCalls = 0;
   const client = createFulfillmentClient({
-    baseUrl: "https://api.example.test/api/customer-flow",
-    approvedHostedOrigin: "https://api.example.test",
+    baseUrl: canonicalHostedApiBaseUrl,
     getTestAccessToken: () => null,
     async fetchImpl() {
       fetchCalls += 1;
@@ -189,14 +188,16 @@ test("hosted API stops before the request when interactive TEST-A access is miss
   assert.equal(fetchCalls, 0);
 });
 
-test("hosted API rejects an HTTPS origin that is not the exact approved origin", () => {
-  assert.throws(
-    () => createFulfillmentClient({
-      baseUrl: "https://other.example.test/api/customer-flow",
-      approvedHostedOrigin: "https://api.example.test",
-    }),
-    /approved HTTPS origin/i,
-  );
+test("equal noncanonical HTTPS and landing-self overrides cannot enable the hosted client", () => {
+  for (const origin of ["https://api.example.test", "https://www.bebebonjour.com"]) {
+    assert.throws(
+      () => createFulfillmentClient({
+        baseUrl: `${origin}/api/customer-flow`,
+        approvedHostedOrigin: origin,
+      }),
+      /canonical hosted API base URL/i,
+    );
+  }
 });
 
 test("an ambiguous intake failure keeps one idempotency key across automatic and manual retries", async () => {

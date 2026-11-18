@@ -1,0 +1,103 @@
+import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
+import test from "node:test";
+
+const html = await readFile(new URL("../index.html", import.meta.url), "utf8");
+const css = await readFile(new URL("../src/styles.css", import.meta.url), "utf8");
+const main = await readFile(new URL("../src/main.js", import.meta.url), "utf8");
+
+const publicSurface = `${html}\n${main}`;
+
+test("public landing speaks as a finished service rather than a test harness", () => {
+  for (const internalPhrase of [
+    /TEST-A/i,
+    /synth[ée]tique/i,
+    /\.test\b/i,
+    /paiement test/i,
+    /demande test/i,
+    /d[ée]mo du parcours/i,
+    /jeton d’accès/i,
+  ]) {
+    assert.doesNotMatch(publicSurface, internalPhrase);
+  }
+  assert.doesNotMatch(html, /id="intake-form"|id="job-status"/);
+  assert.doesNotMatch(main, /window\.prompt|createFulfillmentClient|SESSION_KEY/);
+});
+
+test("public landing has one real intake path and one customer-facing example", () => {
+  const intakeLinks = [...html.matchAll(/href="\/delivery"/g)];
+  assert.equal(intakeLinks.length, 4, "all four public CTAs must share the intake path");
+  assert.doesNotMatch(publicSurface, /tally\.so/i);
+  assert.match(html, /href="\/demo\/announcements\/bayane\/fr\/"/);
+  assert.doesNotMatch(html, /href="\/demo"(?:\s|>)/);
+});
+
+test("landing removes unsupported social proof and unavailable-plan clutter", () => {
+  assert.doesNotMatch(html, /parents adorent|Bientôt dispo|Sur-mesure|Accompagné/i);
+  assert.match(html, /Essentiel/);
+  assert.match(html, /39(?:&nbsp;|\s*)€/);
+});
+
+test("intake states the no-automatic-payment boundary", () => {
+  assert.match(html, /La demande ne déclenche aucun paiement automatique\./i);
+  assert.match(html, /Nous vous confirmons la suite avant toute étape payante\./i);
+  assert.match(html, /mot de passe de l’offre/i);
+  assert.match(html, /sans paiement enregistré/i);
+  assert.match(html, /consentement à la publication et aux courriels/i);
+  assert.doesNotMatch(publicSurface, /buy\.stripe\.com|checkout|carte bancaire/i);
+});
+
+test("customer journey distinguishes automatic first delivery from approval-gated final email", () => {
+  assert.match(html, /première version est composée, publiée et envoyée automatiquement avant\s+relecture humaine/i);
+  assert.match(html, /narration Cedar est créée\s+dans cette même étape/i);
+  assert.match(html, /Une correction relance la\s+création/i);
+  assert.match(html, /courriel final est envoyé après votre approbation/i);
+  assert.match(html, /accessible à toute personne disposant de son lien non indexé/i);
+  assert.match(html, /adresse courriel\s+et votre lien de révision restent privés/i);
+  assert.doesNotMatch(html, /Rien n’est publié ni envoyé sans votre accord|Relu avant publication|Relecture avant mise en ligne|préparons votre aperçu en privé|relisons avec vous avant de le mettre en ligne|relu avant sa mise en ligne/i);
+  assert.match(html, /Le délai dépend du contenu\s+et des langues choisies\./i);
+  assert.doesNotMatch(publicSurface, /espace client|suivre ma demande|bebebonjour-ops/i);
+});
+
+test("all four intake actions navigate directly in the current tab", () => {
+  const intakeLinks = [...html.matchAll(/<a\b[^>]*href="\/delivery"[^>]*>[\s\S]*?<\/a>/g)];
+  assert.equal(intakeLinks.length, 4);
+  for (const [link] of intakeLinks) {
+    assert.doesNotMatch(link, /target=/);
+  }
+});
+
+test("support guidance covers intake confirmation, bounded retry, review, and privacy", () => {
+  assert.match(html, /id="questions"/);
+  assert.match(html, /Lorsque le formulaire confirme l’envoi, votre demande est prise en charge\./i);
+  assert.match(html, /ne transmettez pas une seconde demande\./i);
+  assert.match(html, /Aucune carte n’est demandée dans le formulaire\./i);
+  assert.match(html, /Uniquement pour préparer, relire et livrer votre annonce\./i);
+  assert.match(html, /Le courriel final est envoyé après votre validation finale\./i);
+  assert.match(html, /Le premier courriel est envoyé automatiquement avant révision humaine\./i);
+});
+
+test("the copyright year has a no-JavaScript fallback", () => {
+  assert.match(html, /<span data-year>2026<\/span>/);
+});
+
+test("landing uses the warm editorial design system without gradient decoration", () => {
+  assert.match(css, /--paper:\s*#[0-9a-f]{6}/i);
+  assert.match(css, /--ink:\s*#[0-9a-f]{6}/i);
+  assert.match(css, /--forest:\s*#[0-9a-f]{6}/i);
+  assert.match(css, /--clay:\s*#[0-9a-f]{6}/i);
+  assert.match(css, /Newsreader/);
+  assert.doesNotMatch(css, /(?:linear|radial|conic)-gradient/i);
+});
+
+test("primary actions remain usable on touch and reduced-motion is explicit", () => {
+  assert.match(css, /min-height:\s*44px/);
+  assert.match(css, /@media\s*\(prefers-reduced-motion:\s*reduce\)/);
+  assert.match(css, /animation:\s*none\s*!important/);
+  assert.match(css, /transition:\s*none\s*!important/);
+});
+
+test("small editorial labels and focus indicators retain accessible contrast", () => {
+  assert.match(css, /--clay:\s*#924a39/);
+  assert.match(css, /outline:\s*3px solid var\(--forest\)/);
+});
