@@ -25,8 +25,9 @@ test("public landing speaks as a finished service rather than a test harness", (
 });
 
 test("public landing has one real intake path and one customer-facing example", () => {
-  const intakeLinks = [...html.matchAll(/href="https:\/\/tally\.so\/r\/D49r2j"/g)];
-  assert.ok(intakeLinks.length >= 2, "primary and offer CTAs should share the intake path");
+  const intakeLinks = [...html.matchAll(/href="\/delivery"/g)];
+  assert.equal(intakeLinks.length, 4, "all four public CTAs must share the intake path");
+  assert.doesNotMatch(publicSurface, /tally\.so/i);
   assert.match(html, /href="\/demo\/announcements\/bayane\/fr\/"/);
   assert.doesNotMatch(html, /href="\/demo"(?:\s|>)/);
 });
@@ -40,22 +41,29 @@ test("landing removes unsupported social proof and unavailable-plan clutter", ()
 test("intake states the no-automatic-payment boundary", () => {
   assert.match(html, /La demande ne déclenche aucun paiement automatique\./i);
   assert.match(html, /Nous vous confirmons la suite avant toute étape payante\./i);
+  assert.match(html, /mot de passe de l’offre/i);
+  assert.match(html, /sans paiement enregistré/i);
+  assert.match(html, /consentement à la publication et aux courriels/i);
   assert.doesNotMatch(publicSurface, /buy\.stripe\.com|checkout|carte bancaire/i);
 });
 
-test("customer journey promises only private review and approval-gated delivery", () => {
-  assert.match(html, /Nous préparons votre aperçu en privé\./i);
-  assert.match(html, /Rien n’est publié ni envoyé sans votre accord\./i);
+test("customer journey distinguishes automatic first delivery from approval-gated final email", () => {
+  assert.match(html, /première version est composée, publiée et envoyée automatiquement avant\s+relecture humaine/i);
+  assert.match(html, /narration Cedar est créée\s+dans cette même étape/i);
+  assert.match(html, /Une correction relance la\s+création/i);
+  assert.match(html, /courriel final est envoyé après votre approbation/i);
+  assert.match(html, /accessible à toute personne disposant de son lien non indexé/i);
+  assert.match(html, /adresse courriel\s+et votre lien de révision restent privés/i);
+  assert.doesNotMatch(html, /Rien n’est publié ni envoyé sans votre accord|Relu avant publication|Relecture avant mise en ligne|préparons votre aperçu en privé|relisons avec vous avant de le mettre en ligne|relu avant sa mise en ligne/i);
   assert.match(html, /Le délai dépend du contenu\s+et des langues choisies\./i);
   assert.doesNotMatch(publicSurface, /espace client|suivre ma demande|bebebonjour-ops/i);
 });
 
-test("every external intake link is isolated from the landing window", () => {
-  const intakeLinks = [...html.matchAll(/<a[\s\S]*?href="https:\/\/tally\.so\/r\/D49r2j"[\s\S]*?<\/a>/g)];
-  assert.ok(intakeLinks.length >= 2);
+test("all four intake actions navigate directly in the current tab", () => {
+  const intakeLinks = [...html.matchAll(/<a\b[^>]*href="\/delivery"[^>]*>[\s\S]*?<\/a>/g)];
+  assert.equal(intakeLinks.length, 4);
   for (const [link] of intakeLinks) {
-    assert.match(link, /target="_blank"/);
-    assert.match(link, /rel="[^"]*noopener[^"]*noreferrer[^"]*"/);
+    assert.doesNotMatch(link, /target=/);
   }
 });
 
@@ -65,7 +73,8 @@ test("support guidance covers intake confirmation, bounded retry, review, and pr
   assert.match(html, /ne transmettez pas une seconde demande\./i);
   assert.match(html, /Aucune carte n’est demandée dans le formulaire\./i);
   assert.match(html, /Uniquement pour préparer, relire et livrer votre annonce\./i);
-  assert.match(html, /Après votre validation finale\./i);
+  assert.match(html, /Le courriel final est envoyé après votre validation finale\./i);
+  assert.match(html, /Le premier courriel est envoyé automatiquement avant révision humaine\./i);
 });
 
 test("the copyright year has a no-JavaScript fallback", () => {

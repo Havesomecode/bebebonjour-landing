@@ -20,7 +20,8 @@ test("public landing exposes no provider, operator, or hidden test controls", ()
   assert.doesNotMatch(html, /buy\.stripe\.com|bebebonjour-fulfillment|id="intake-form"|id="job-status"/i);
   assert.doesNotMatch(main, /createFulfillmentClient|window\.prompt|sessionStorage/i);
   assert.doesNotMatch(css, /https?:\/\//i);
-  assert.match(html, /https:\/\/tally\.so\/r\/D49r2j/);
+  assert.doesNotMatch(html, /tally\.so/i);
+  assert.equal([...html.matchAll(/href="\/delivery"/g)].length, 4);
 });
 
 test("the synthetic proof route remains unlinked while customer examples remain reachable", () => {
@@ -71,9 +72,24 @@ test("internal operating notes keep the hosted boundary explicit", () => {
   assert.match(readme, /Content-Security-Policy/);
 });
 
-test("release notes distinguish the live intake from unfrozen customer workflow contracts", () => {
-  assert.match(readme, /Public CTAs route only to the production Tally form `D49r2j`/i);
+test("release notes identify the real intake, waiver, and automatic first-version boundary", () => {
+  assert.match(readme, /All four public CTAs use `\/delivery`/i);
+  assert.match(readme, /https:\/\/tacit-antelope-577\.convex\.site\/delivery/);
   assert.match(readme, /private Operations console is not a customer-facing status portal/i);
-  assert.match(readme, /Stripe remains in test mode/i);
-  assert.match(readme, /customer-facing status and review URL is not frozen/i);
+  assert.match(readme, /payment waiver, not a payment record/i);
+  assert.match(readme, /automatically before human review/i);
+  assert.match(readme, /owner approval gates the final email/i);
+  assert.match(readme, /Email addresses and review links remain private/i);
+});
+
+test("delivery redirects to the exact Convex intake without altering existing SPA routes", () => {
+  assert.deepEqual(vercel.redirects, [{
+    source: "/delivery",
+    destination: "https://tacit-antelope-577.convex.site/delivery",
+    permanent: false,
+  }]);
+  assert.deepEqual(vercel.rewrites, [
+    { source: "/demo", destination: "/demo.html" },
+    { source: "/(.*)", destination: "/index.html" },
+  ]);
 });

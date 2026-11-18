@@ -5,14 +5,21 @@ synthetic verification clients kept outside the public entrypoint.
 
 ## Current production boundary
 
-- Public CTAs route only to the production Tally form `D49r2j`.
-- Tally is intake only; submitting the form does not trigger an automatic charge.
+- All four public CTAs use `/delivery`, which temporarily redirects to the owned
+  Convex intake at `https://tacit-antelope-577.convex.site/delivery`.
+- Intake requires consent and the complimentary offer password. It creates a
+  payment waiver, not a payment record; there is no automatic payment or charge.
 - The canonical private Operations console is not a customer-facing status portal
   and must never be linked from the public landing.
-- Stripe remains in test mode. No live checkout or charge path belongs in this build.
-- The customer-facing status and review URL is not frozen. Do not invent or publish
-  one until the Operations/worker release records an exact reviewed contract.
-- Publication, delivery, and customer email remain explicit downstream gates.
+- No checkout or payment-provider controls belong in this landing build.
+- First-version composition, optional Cedar narration, publication, and the first
+  customer email run automatically before human review. A correction regenerates
+  the announcement; owner approval gates the final email, not initial publication.
+- The announcement is a non-indexed shareable capability: anyone with its link
+  can view it. Email addresses and review links remain private. Never embed a
+  customer capability, review URL, or operator URL in the public landing.
+- Existing first-party CSP headers and `/demo`/SPA rewrites remain unchanged;
+  navigating to the intake is a redirect, not a client-side API request.
 
 ## Local-only customer flow
 
@@ -62,7 +69,7 @@ until the page is reloaded. Never place that token in an environment file,
 build command, URL, browser storage, log, or committed asset.
 
 This repository pins Vercel's `Content-Security-Policy` `connect-src` to
-`'self'` and the exact approved HTTPS origin above. This compatibility change
+`'self'` only. The dormant client above is excluded from the public entrypoint. It
 does not activate a hosted endpoint, deploy, publish, send customer email, or
 permit live payment.
 
