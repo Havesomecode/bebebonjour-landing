@@ -4,7 +4,7 @@
   "outputDirectory": "dist",
   "headers": [
     {
-      "source": "/(.*)",
+      "source": "/((?!delivery(?:/|$)|announcements/).*)",
       "headers": [
         {
           "key": "Content-Security-Policy",
@@ -29,14 +29,19 @@
       ]
     }
   ],
-  "redirects": [
+  "rewrites": [
     {
       "source": "/delivery",
-      "destination": "https://tacit-antelope-577.convex.site/delivery",
-      "permanent": false
-    }
-  ],
-  "rewrites": [
+      "destination": "https://tacit-antelope-577.convex.site/delivery"
+    },
+    {
+      "source": "/delivery/:path*",
+      "destination": "https://tacit-antelope-577.convex.site/delivery/:path*"
+    },
+    {
+      "source": "/announcements/:path*",
+      "destination": "https://tacit-antelope-577.convex.site/announcements/:path*"
+    },
     {
       "source": "/demo",
       "destination": "/demo.html"

@@ -74,7 +74,7 @@ test("internal operating notes keep the hosted boundary explicit", () => {
 
 test("release notes identify the real intake, waiver, and automatic first-version boundary", () => {
   assert.match(readme, /All four public CTAs use `\/delivery`/i);
-  assert.match(readme, /https:\/\/tacit-antelope-577\.convex\.site\/delivery/);
+  assert.match(readme, /https:\/\/tacit-antelope-577\.convex\.site/);
   assert.match(readme, /private Operations console is not a customer-facing status portal/i);
   assert.match(readme, /payment waiver, not a payment record/i);
   assert.match(readme, /automatically before human review/i);
@@ -82,14 +82,21 @@ test("release notes identify the real intake, waiver, and automatic first-versio
   assert.match(readme, /Email addresses and review links remain private/i);
 });
 
-test("delivery redirects to the exact Convex intake without altering existing SPA routes", () => {
-  assert.deepEqual(vercel.redirects, [{
-    source: "/delivery",
-    destination: "https://tacit-antelope-577.convex.site/delivery",
-    permanent: false,
-  }]);
+test("delivery and announcements are proxied to the exact Convex origin on the same domain", () => {
+  const origin = "https://tacit-antelope-577.convex.site";
+  assert.equal(vercel.redirects, undefined);
   assert.deepEqual(vercel.rewrites, [
+    { source: "/delivery", destination: `${origin}/delivery` },
+    { source: "/delivery/:path*", destination: `${origin}/delivery/:path*` },
+    { source: "/announcements/:path*", destination: `${origin}/announcements/:path*` },
     { source: "/demo", destination: "/demo.html" },
     { source: "/(.*)", destination: "/index.html" },
   ]);
+});
+
+test("landing CSP does not apply to the proxied delivery pages, which send their own", () => {
+  const source = new RegExp(`^${vercel.headers[0].source.replace(/^\//, "/")}$`);
+  for (const path of ["/", "/demo", "/anything"]) assert.match(path, source);
+  for (const path of ["/delivery", "/delivery/review", "/announcements/abc"]) assert.doesNotMatch(path, source);
+  assert.match("/deliveryfoo", source);
 });

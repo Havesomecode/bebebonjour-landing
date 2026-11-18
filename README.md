@@ -5,8 +5,10 @@ synthetic verification clients kept outside the public entrypoint.
 
 ## Current production boundary
 
-- All four public CTAs use `/delivery`, which temporarily redirects to the owned
-  Convex intake at `https://tacit-antelope-577.convex.site/delivery`.
+- All four public CTAs use `/delivery`. Vercel proxies `/delivery/*` and `/announcements/*` to the owned
+  Convex intake at `https://tacit-antelope-577.convex.site`, so the form, review
+  links and announcements stay on `bebebonjour.com`. Those pages send their own
+  Content-Security-Policy; the landing one excludes them.
 - Intake requires consent and the complimentary offer password. It creates a
   payment waiver, not a payment record; there is no automatic payment or charge.
 - The canonical private Operations console is not a customer-facing status portal
