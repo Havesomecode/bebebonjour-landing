@@ -24,9 +24,15 @@ test("public landing exposes no provider, operator, or hidden test controls", ()
   assert.equal([...html.matchAll(/href="\/delivery"/g)].length, 4);
 });
 
-test("the synthetic proof route remains unlinked while customer examples remain reachable", () => {
-  assert.doesNotMatch(html, /href="\/demo"(?:\s|>)/);
-  assert.match(html, /href="\/demo\/announcements\/bayane\/fr\/"/);
+test("the Amal example is a static, non-indexed copy with no private capability", async () => {
+  const example = await readFile(new URL("../public/exemple/amal/index.html", import.meta.url), "utf8");
+  const audio = await readFile(new URL("../public/exemple/amal/amal-fr.mp3", import.meta.url));
+  assert.match(example, /<meta name="robots" content="noindex, nofollow">/);
+  assert.match(example, /<script src="\/exemple\/amal\/announcement\.js"><\/script>/);
+  assert.doesNotMatch(example, /<script>|convex|\/announcements\/|[a-f0-9]{64}/i);
+  assert.equal(audio[0], 0xff, "MPEG frame sync");
+  assert.equal(audio[1] & 0xe0, 0xe0, "MPEG frame sync");
+  assert.ok(audio.length > 100_000);
 });
 
 test("dormant hosted client remains pinned but is absent from the public bundle entry", () => {
@@ -72,14 +78,12 @@ test("internal operating notes keep the hosted boundary explicit", () => {
   assert.match(readme, /Content-Security-Policy/);
 });
 
-test("release notes identify the real intake, waiver, and automatic first-version boundary", () => {
+test("release notes describe the paid, operator-read order path", () => {
   assert.match(readme, /All four public CTAs use `\/delivery`/i);
   assert.match(readme, /https:\/\/tacit-antelope-577\.convex\.site/);
   assert.match(readme, /private Operations console is not a customer-facing status portal/i);
-  assert.match(readme, /payment waiver, not a payment record/i);
-  assert.match(readme, /automatically before human review/i);
-  assert.match(readme, /owner approval gates the final email/i);
-  assert.match(readme, /Email addresses and review links remain private/i);
+  assert.match(readme, /operator reads every request before any generation/i);
+  assert.match(readme, /€39/);
 });
 
 test("delivery and announcements are proxied to the exact Convex origin on the same domain", () => {

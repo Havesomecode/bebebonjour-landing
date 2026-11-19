@@ -5,18 +5,22 @@ synthetic verification clients kept outside the public entrypoint.
 
 ## Current production boundary
 
+- The landing sells one product: a €39 announcement page (text, Cedar narration,
+  two corrections, 12 months online), paid once. Order flow shown to visitors:
+  describe → we read the request → pay → the announcement arrives.
 - All four public CTAs use `/delivery`. Vercel proxies `/delivery/*` and `/announcements/*` to the owned
-  Convex intake at `https://tacit-antelope-577.convex.site`, so the form, review
+  Convex intake at `https://tacit-antelope-577.convex.site`, so the form, order
   links and announcements stay on `bebebonjour.com`. Those pages send their own
   Content-Security-Policy; the landing one excludes them.
-- Intake requires consent and the complimentary offer password. It creates a
-  payment waiver, not a payment record; there is no automatic payment or charge.
+- An operator reads every request before any generation; the customer pays €39
+  through the Stripe Checkout link emailed after that, and generation starts only
+  after verified payment. The order form, payment and emails live in the app
+  repository (`bebebonjour-app`), not in this landing.
+- `/exemple/amal/` is the public example: a static copy of the real Amal
+  announcement produced by the generator (Codex text, Cedar voice), with
+  `noindex`. It carries no Convex URL or capability token.
 - The canonical private Operations console is not a customer-facing status portal
   and must never be linked from the public landing.
-- No checkout or payment-provider controls belong in this landing build.
-- First-version composition, optional Cedar narration, publication, and the first
-  customer email run automatically before human review. A correction regenerates
-  the announcement; owner approval gates the final email, not initial publication.
 - The announcement is a non-indexed shareable capability: anyone with its link
   can view it. Email addresses and review links remain private. Never embed a
   customer capability, review URL, or operator URL in the public landing.
@@ -46,9 +50,7 @@ create or inspect its own job and request its reusable checkout session, but it
 cannot record payment, editorial approval, publication, or delivery.
 
 The TEST-A server uses memory and local adapters only. It sends no provider
-request, email, payment, deployment, or production mutation. Hosted Convex,
-Stripe test mode, Cloudflare Email test sends, Vercel previews, and production all require
-separate recorded authorization.
+request, email, payment, deployment, or production mutation.
 
 ## Dormant hosted compatibility client
 
@@ -99,5 +101,9 @@ NODE_NO_WARNINGS=1 npm run demo:export -- ../bebebonjour-landing/public/demo
 ```
 
 The committed artifact keeps both `/demo/announcements/amal/fr/` and
-`/demo/announcements/bayane/fr/` reachable. Hosted deployment, DNS, live payment,
-email, TTS, and publication remain separately gated actions.
+`/demo/announcements/bayane/fr/` reachable. `/demo` is not linked from the landing.
+
+## Deployment
+
+Pushing `master` deploys production on Vercel (`bebebonjour.com`). Check the
+live page on desktop and mobile after each push.

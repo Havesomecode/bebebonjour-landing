@@ -24,57 +24,37 @@ test("public landing speaks as a finished service rather than a test harness", (
   assert.doesNotMatch(main, /window\.prompt|createFulfillmentClient|SESSION_KEY/);
 });
 
-test("public landing has one real intake path and one customer-facing example", () => {
-  const intakeLinks = [...html.matchAll(/href="\/delivery"/g)];
-  assert.equal(intakeLinks.length, 4, "all four public CTAs must share the intake path");
-  assert.doesNotMatch(publicSurface, /tally\.so/i);
-  assert.match(html, /href="\/demo\/announcements\/bayane\/fr\/"/);
-  assert.doesNotMatch(html, /href="\/demo"(?:\s|>)/);
-});
-
-test("landing removes unsupported social proof and unavailable-plan clutter", () => {
-  assert.doesNotMatch(html, /parents adorent|Bientôt dispo|Sur-mesure|Accompagné/i);
-  assert.match(html, /Essentiel/);
-  assert.match(html, /39(?:&nbsp;|\s*)€/);
-});
-
-test("intake states the no-automatic-payment boundary", () => {
-  assert.match(html, /La demande ne déclenche aucun paiement automatique\./i);
-  assert.match(html, /Nous vous confirmons la suite avant toute étape payante\./i);
-  assert.match(html, /mot de passe de l’offre/i);
-  assert.match(html, /sans paiement enregistré/i);
-  assert.match(html, /consentement à la publication et aux courriels/i);
-  assert.doesNotMatch(publicSurface, /buy\.stripe\.com|checkout|carte bancaire/i);
-});
-
-test("customer journey distinguishes automatic first delivery from approval-gated final email", () => {
-  assert.match(html, /première version est composée, publiée et envoyée automatiquement avant\s+relecture humaine/i);
-  assert.match(html, /narration Cedar est créée\s+dans cette même étape/i);
-  assert.match(html, /Une correction relance la\s+création/i);
-  assert.match(html, /courriel final est envoyé après votre approbation/i);
-  assert.match(html, /accessible à toute personne disposant de son lien non indexé/i);
-  assert.match(html, /adresse courriel\s+et votre lien de révision restent privés/i);
-  assert.doesNotMatch(html, /Rien n’est publié ni envoyé sans votre accord|Relu avant publication|Relecture avant mise en ligne|préparons votre aperçu en privé|relisons avec vous avant de le mettre en ligne|relu avant sa mise en ligne/i);
-  assert.match(html, /Le délai dépend du contenu\s+et des langues choisies\./i);
-  assert.doesNotMatch(publicSurface, /espace client|suivre ma demande|bebebonjour-ops/i);
-});
-
-test("all four intake actions navigate directly in the current tab", () => {
+test("public landing has one real intake path and a listenable real example", () => {
   const intakeLinks = [...html.matchAll(/<a\b[^>]*href="\/delivery"[^>]*>[\s\S]*?<\/a>/g)];
-  assert.equal(intakeLinks.length, 4);
-  for (const [link] of intakeLinks) {
-    assert.doesNotMatch(link, /target=/);
-  }
+  assert.equal(intakeLinks.length, 4, "all four public CTAs must share the intake path");
+  for (const [link] of intakeLinks) assert.doesNotMatch(link, /target=/);
+  assert.doesNotMatch(publicSurface, /tally\.so/i);
+  assert.match(html, /href="\/exemple\/amal\/"/);
+  assert.match(html, /<audio data-example-audio preload="none" src="\/exemple\/amal\/amal-fr\.mp3"><\/audio>/);
+  assert.match(html, /<button class="listen" type="button" data-listen/);
+  assert.match(main, /audio\.play\(\)/);
+  assert.doesNotMatch(html, /href="\/demo/);
 });
 
-test("support guidance covers intake confirmation, bounded retry, review, and privacy", () => {
-  assert.match(html, /id="questions"/);
-  assert.match(html, /Lorsque le formulaire confirme l’envoi, votre demande est prise en charge\./i);
-  assert.match(html, /ne transmettez pas une seconde demande\./i);
-  assert.match(html, /Aucune carte n’est demandée dans le formulaire\./i);
-  assert.match(html, /Uniquement pour préparer, relire et livrer votre annonce\./i);
-  assert.match(html, /Le courriel final est envoyé après votre validation finale\./i);
-  assert.match(html, /Le premier courriel est envoyé automatiquement avant révision humaine\./i);
+test("price and the paid order flow are stated without an offer password", () => {
+  assert.match(html, /39&nbsp;€ en une fois/);
+  const steps = [...html.matchAll(/<h3>([^<]+)<\/h3>/g)].map(([, title]) => title);
+  assert.deepEqual(steps, [
+    "Vous décrivez",
+    "Nous lisons votre demande",
+    "Vous payez 39&nbsp;€",
+    "Votre annonce arrive",
+  ]);
+  assert.match(html, /La création commence dès que\s+le paiement est reçu\./);
+  assert.match(html, /Rien n’est\s+demandé ni prélevé quand vous envoyez le formulaire\./);
+  assert.doesNotMatch(publicSurface, /mot de passe|offerte|aucun paiement automatique|buy\.stripe\.com/i);
+});
+
+test("the landing tells buyers the voice is synthetic and who can open the page", () => {
+  assert.match(html, /voix de synthèse/);
+  assert.match(html, /Toute personne à qui vous donnez le lien\./);
+  assert.match(html, /n’apparaît pas dans les\s+moteurs de recherche/);
+  assert.doesNotMatch(publicSurface, /espace client|bebebonjour-ops|convex/i);
 });
 
 test("the copyright year has a no-JavaScript fallback", () => {

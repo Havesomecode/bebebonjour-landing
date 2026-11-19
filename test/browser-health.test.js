@@ -9,6 +9,7 @@ import { after, before, test } from "node:test";
 const routes = [
   { path: "/", title: "Bébé Bonjour" },
   { path: "/demo", title: "Démonstration synthétique" },
+  { path: "/exemple/amal/", title: "Amal" },
   { path: "/demo/announcements/amal/fr/", title: "Amal" },
   { path: "/demo/announcements/amal/ar/", title: "Amal" },
   { path: "/demo/announcements/bayane/fr/", title: "Bayane" },

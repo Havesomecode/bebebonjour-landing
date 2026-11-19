@@ -4,10 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="/favicon.ico" sizes="any" />
-    <title>Bébé Bonjour — Un faire-part de naissance à votre image</title>
+    <title>Bébé Bonjour — Sa naissance, racontée à voix haute</title>
     <meta
       name="description"
-      content="Un faire-part de naissance numérique en français ou en arabe : une première version composée, publiée et envoyée automatiquement, puis relue avec vous."
+      content="Une page à son prénom, un texte écrit pour votre bébé et une voix qui le lit. En français ou en arabe, 39 € en une fois."
     />
     <meta name="theme-color" content="#f5f0e6" />
     <script type="module" src="/src/main.js"></script>
@@ -20,209 +20,174 @@
         <span>Bébé</span> Bonjour
       </a>
       <nav aria-label="Navigation principale">
-        <a href="#methode">Notre méthode</a>
-        <a href="#offre">L’offre</a>
-        <a
-          class="button button-small"
-          href="/delivery"
-        >Commencer</a>
+        <a href="#offre">Ce que vous recevez</a>
+        <a href="#etapes">Comment ça se passe</a>
+        <a class="button button-small" href="/delivery">Commander</a>
       </nav>
     </header>
 
     <main id="contenu">
       <section class="hero" aria-labelledby="hero-title">
         <div class="hero-copy">
-          <p class="eyebrow">Faire-part de naissance numérique</p>
-          <h1 id="hero-title">Une annonce à leur image, pensée avec soin.</h1>
+          <p class="eyebrow">Faire-part de naissance à écouter</p>
+          <h1 id="hero-title">Sa naissance, racontée à voix haute.</h1>
           <p class="hero-intro">
-            Nous composons votre faire-part en français ou en arabe, le mettons en ligne
-            et vous envoyons la première version automatiquement, avant relecture humaine.
+            Une page à son prénom, un texte écrit pour votre bébé, et une voix qui le lit.
+            Vous envoyez le lien, vos proches l’ouvrent sur leur téléphone.
           </p>
           <div class="actions">
-            <a
-              class="button"
-              href="/delivery"
-            >Créer mon faire-part</a>
-            <a class="text-link" href="/demo/announcements/bayane/fr/">
-              Voir un exemple <span aria-hidden="true">↗</span>
-            </a>
+            <a class="button" href="/delivery">Commander mon annonce</a>
+            <button class="listen" type="button" data-listen aria-pressed="false">
+              <span class="listen-icon" aria-hidden="true" data-listen-icon>▶</span>
+              <span data-listen-label>Écouter l’annonce d’Amal</span>
+              <span class="listen-time">0:17</span>
+            </button>
           </div>
-          <ul class="quiet-list" aria-label="Points essentiels">
-            <li>Français et arabe</li>
-            <li>Première version automatique, puis relecture</li>
-            <li>Conçu pour le mobile</li>
-          </ul>
+          <audio data-example-audio preload="none" src="/exemple/amal/amal-fr.mp3"></audio>
+          <p class="conditions">39&nbsp;€ en une fois · Français ou arabe · Voix incluse</p>
         </div>
 
-        <a
-          class="announcement-preview"
-          href="/demo/announcements/bayane/fr/"
-          aria-label="Ouvrir l’exemple de faire-part de Bayane"
-        >
-          <span class="preview-kicker" lang="ar" dir="rtl">بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيمِ</span>
-          <span class="preview-line">Par la grâce de Dieu, nous avons accueilli notre fille…</span>
-          <strong lang="ar" dir="rtl">بَيَان</strong>
-          <span class="preview-name">Bayane</span>
-          <span class="preview-wish">Lumière, paix et espérance.</span>
-          <span class="preview-open">Voir le faire-part <span aria-hidden="true">↗</span></span>
-        </a>
+        <figure class="example">
+          <a class="example-phone" href="/exemple/amal/" aria-label="Ouvrir la page d’Amal, un exemple">
+            <img
+              src="/exemple/amal/apercu-mobile.jpg"
+              width="390"
+              height="720"
+              alt="La page d’Amal sur un téléphone : « Bienvenue au monde, Amal » et le bouton Écouter le récit."
+            />
+          </a>
+          <figcaption>
+            Amal est un exemple. Sa page a été créée comme le sera celle de votre bébé.
+            <a href="/exemple/amal/">Voir sa page</a>
+          </figcaption>
+        </figure>
       </section>
 
-      <section class="principles" aria-label="Notre engagement">
-        <p>Une page personnelle à partager</p>
-        <p>Une narration disponible</p>
-        <p>Une validation humaine</p>
+      <section class="offer section-shell" id="offre" aria-labelledby="offer-title">
+        <div class="offer-copy">
+          <p class="eyebrow">Ce que vous recevez</p>
+          <h2 id="offer-title">Une page, un texte, une voix.</h2>
+          <p>
+            Tout tient dans un lien. Vos proches l’ouvrent, lisent son prénom et entendent
+            l’annonce, où qu’ils soient.
+          </p>
+        </div>
+        <div class="offer-card">
+          <div class="price-line">
+            <span>L’annonce</span>
+            <strong>39&nbsp;€</strong>
+          </div>
+          <ul>
+            <li>Une page à son prénom, faite pour le téléphone</li>
+            <li>Un texte écrit pour votre bébé, en français ou en arabe</li>
+            <li>Le texte lu par une voix de synthèse</li>
+            <li>Deux corrections si un mot ne vous convient pas</li>
+            <li>Un lien à partager, en ligne pendant 12&nbsp;mois</li>
+          </ul>
+          <a class="button button-wide" href="/delivery">Commander mon annonce</a>
+          <p class="offer-note">Paiement unique, sans abonnement ni renouvellement automatique.</p>
+        </div>
       </section>
 
-      <section class="method section-shell" id="methode" aria-labelledby="method-title">
+      <section class="method section-shell" id="etapes" aria-labelledby="method-title">
         <div class="section-heading">
-          <p class="eyebrow">Notre méthode</p>
-          <h2 id="method-title">Vous racontez. Nous composons. Vous validez.</h2>
+          <p class="eyebrow">Comment ça se passe</p>
+          <h2 id="method-title">De votre demande à son annonce.</h2>
         </div>
         <ol class="steps">
           <li>
             <span>01</span>
             <div>
-              <h3>Votre demande</h3>
-              <p>
-                Vous partagez les informations essentielles, la langue et le contexte souhaités.
-                Vous donnez votre consentement à la publication et aux courriels,
-                puis saisissez le mot de passe de l’offre pour une demande offerte.
-              </p>
+              <h3>Vous décrivez</h3>
+              <p>Son prénom, la langue de l’annonce et ce que vous aimeriez y dire.</p>
             </div>
           </li>
           <li>
             <span>02</span>
             <div>
-              <h3>La composition</h3>
+              <h3>Nous lisons votre demande</h3>
               <p>
-                La première version est composée, publiée et envoyée automatiquement avant
-                relecture humaine. Si vous choisissez l’audio, la narration Cedar est créée
-                dans cette même étape.
+                Une personne de l’équipe la lit avant toute création. Si nous ne pouvons pas
+                la réaliser, vous ne payez rien.
               </p>
             </div>
           </li>
           <li>
             <span>03</span>
             <div>
-              <h3>Votre accord</h3>
-              <p>Vous relisez le résultat depuis votre lien privé. Une correction relance la
-                création ; vous approuvez ensuite la version corrigée pour recevoir le courriel final.</p>
+              <h3>Vous payez 39&nbsp;€</h3>
+              <p>
+                Vous recevez le lien de paiement par courriel. La création commence dès que
+                le paiement est reçu.
+              </p>
+            </div>
+          </li>
+          <li>
+            <span>04</span>
+            <div>
+              <h3>Votre annonce arrive</h3>
+              <p>
+                Elle arrive par courriel, avec son lien. Vous demandez une correction ou vous
+                la partagez telle quelle.
+              </p>
             </div>
           </li>
         </ol>
       </section>
 
-      <section class="offer section-shell" id="offre" aria-labelledby="offer-title">
-        <div class="offer-copy">
-          <p class="eyebrow">L’offre Essentiel</p>
-          <h2 id="offer-title">Tout le nécessaire pour annoncer cette naissance avec justesse.</h2>
-          <p>
-            Un faire-part numérique personnalisé, prêt à être partagé avec vos proches
-            depuis un lien unique.
-          </p>
-        </div>
-        <div class="offer-card">
-          <div class="price-line">
-            <span>Essentiel</span>
-            <strong>39&nbsp;€</strong>
-          </div>
-          <ul>
-            <li>Page personnalisée et adaptée au mobile</li>
-            <li>Version française ou arabe</li>
-            <li>Narration vocale Cedar en option</li>
-            <li>Première version en ligne, puis relecture</li>
-            <li>Lien unique prêt à partager</li>
-          </ul>
-          <a
-            class="button button-wide"
-            href="/delivery"
-          >Commencer ma demande</a>
-          <p class="offer-note">
-            La demande ne déclenche aucun paiement automatique.
-            Le mot de passe de l’offre permet une création offerte, sans paiement enregistré.
-            Nous vous confirmons la suite avant toute étape payante.
-          </p>
-        </div>
-      </section>
-
-      <section class="reassurance section-shell" aria-labelledby="reassurance-title">
-        <div>
-          <p class="eyebrow">Après la première version</p>
-          <h2 id="reassurance-title">Vous gardez le dernier mot.</h2>
-        </div>
-        <p>
-          Votre annonce est accessible à toute personne disposant de son lien non indexé.
-          Gardez votre adresse courriel et votre lien de révision privés. Vous pouvez demander
-          une correction ; le courriel final est envoyé après votre approbation. Le délai dépend du contenu
-          et des langues choisies.
-        </p>
-      </section>
-
       <section class="questions section-shell" id="questions" aria-labelledby="questions-title">
         <div class="section-heading">
-          <p class="eyebrow">Avant de commencer</p>
-          <h2 id="questions-title">Les étapes claires, dès votre demande.</h2>
+          <p class="eyebrow">Questions</p>
+          <h2 id="questions-title">Avant de commander.</h2>
         </div>
         <div class="question-list">
           <details>
-            <summary>Que se passe-t-il après l’envoi&nbsp;?</summary>
+            <summary>Quelle voix lit l’annonce&nbsp;?</summary>
             <p>
-              Lorsque le formulaire confirme l’envoi, votre demande est prise en charge.
-              La première version est créée, publiée et envoyée automatiquement avant révision
-              humaine. Le courriel contient votre lien privé pour relire, demander une correction
-              ou approuver l’annonce.
+              Une voix de synthèse, calme et posée. C’est celle que vous entendez dans
+              l’annonce d’Amal.
             </p>
           </details>
           <details>
-            <summary>Quand le paiement a-t-il lieu&nbsp;?</summary>
+            <summary>Qui peut voir la page&nbsp;?</summary>
             <p>
-              Aucune carte n’est demandée dans le formulaire. Le tarif Essentiel est de 39&nbsp;€.
-              L’offre accessible avec son mot de passe est gratuite ; aucun paiement n’est enregistré.
-              Nous vous confirmons la suite avant toute étape payante.
+              Toute personne à qui vous donnez le lien. La page n’apparaît pas dans les
+              moteurs de recherche.
             </p>
           </details>
           <details>
-            <summary>Le formulaire ne s’ouvre pas&nbsp;?</summary>
+            <summary>Quand dois-je payer&nbsp;?</summary>
             <p>
-              Le bouton ouvre notre formulaire dans cet onglet. Rechargez cette page, puis réessayez.
-              Si un envoi est encore en cours ou si vous attendez sa confirmation,
-              ne transmettez pas une seconde demande.
+              Après notre lecture de votre demande, avec le lien reçu par courriel. Rien n’est
+              demandé ni prélevé quand vous envoyez le formulaire.
             </p>
           </details>
           <details>
-            <summary>Comment vos informations sont-elles utilisées&nbsp;?</summary>
+            <summary>Et si le texte ne me convient pas&nbsp;?</summary>
             <p>
-              Uniquement pour préparer, relire et livrer votre annonce.
-              Avec votre consentement, les informations du faire-part sont publiées à son lien
-              non indexé, consultable par toute personne qui le reçoit. Votre adresse courriel
-              et votre lien de révision restent privés.
+              Deux corrections sont incluses. Vous indiquez ce qu’il faut changer depuis le
+              lien de votre commande.
             </p>
           </details>
           <details>
-            <summary>Quand les courriels sont-ils envoyés&nbsp;?</summary>
+            <summary>Que faites-vous de mes informations&nbsp;?</summary>
             <p>
-              Le premier courriel est envoyé automatiquement avant révision humaine.
-              Le courriel final est envoyé après votre validation finale. Une demande de correction
-              relance la création, puis nécessite votre approbation pour cet envoi final.
+              Elles servent uniquement à créer et livrer votre annonce. Le prénom et vos
+              souhaits suffisent : ni photo, ni adresse, ni détail de santé.
             </p>
           </details>
         </div>
       </section>
 
       <section class="closing" aria-labelledby="closing-title">
-        <p class="eyebrow">Bébé Bonjour</p>
-        <h2 id="closing-title">Une belle nouvelle mérite d’être annoncée simplement.</h2>
-        <a
-          class="button"
-          href="/delivery"
-        >Créer mon faire-part</a>
+        <h2 id="closing-title">Annoncez son arrivée avec sa propre page.</h2>
+        <a class="button" href="/delivery">Commander mon annonce · 39&nbsp;€</a>
       </section>
     </main>
 
     <footer>
       <a class="wordmark" href="/">Bébé Bonjour</a>
-      <p>Faire-part de naissance numérique · Français & arabe</p>
+      <p>Faire-part de naissance à écouter · Français & arabe</p>
       <p>© <span data-year>2026</span> Bébé Bonjour</p>
     </footer>
   </body>

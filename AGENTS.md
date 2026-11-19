@@ -1,6 +1,6 @@
 # Bébé Bonjour landing
 
-First-party Vite landing for bebebonjour.com. `index.html` and `src/main.js` are the public entry; `demo.html`, `src/demo*.js`, `src/demo.css`, and `public/demo/` provide a synthetic workflow demo. `src/fulfillment-client.js` is a dormant compatibility client. Styles are in `src/styles.css`; tests are in `test/`. `vite.config.js` builds both HTML entries; `vercel.json` defines headers, redirects and rewrites. `openspec/` contains change documentation.
+First-party Vite landing for bebebonjour.com. `index.html` and `src/main.js` are the public entry; `demo.html`, `src/demo*.js`, `src/demo.css`, and `public/demo/` provide a synthetic workflow demo. `public/exemple/amal/` is the public example linked from the landing (static copy of a real generated announcement). `src/fulfillment-client.js` is a dormant compatibility client. Styles are in `src/styles.css`; tests are in `test/`. `vite.config.js` builds both HTML entries; `vercel.json` defines headers, redirects and rewrites. `openspec/` contains change documentation.
 
 ## Development and verification
 
@@ -8,10 +8,11 @@ Use Node 20.19+ or 22.12+. `npm ci` installs dependencies; `npm run dev` serves 
 
 ## Boundaries
 
-- All public CTAs go through `/delivery` to the owned intake. It requires consent and the complimentary offer password; it creates a payment waiver, not a charge. Do not add checkout or payment controls to the landing.
-- First publication and first customer email are automatic; owner approval gates the final email after correction. Announcements are non-indexed shareable capabilities. Keep customer links, review URLs, email addresses and private Operations URLs out of public assets.
+- No real customers yet (owner, 18/11/2026). The landing sells a €39 announcement, paid once: the customer describes, an operator reads the request, the customer pays through the emailed Stripe Checkout link, then the announcement is generated and delivered. No free preview. The order form, payment and emails belong to `bebebonjour-app`; all public CTAs go through `/delivery`.
+- Copy states only what the app does today: no delivery-time promise unless the app guarantees it.
+- Announcements are non-indexed shareable capabilities. Keep customer links, review URLs, email addresses and private Operations URLs out of public assets; the public example is a static copy without any Convex URL or token.
 - Preserve the existing CSP and `/demo` and SPA rewrites. The demo uses fictional profiles and must not contact providers or analytics. Keep the hosted compatibility client out of the public entrypoint; never put its access token in URLs, build variables, storage, logs or assets.
-- Hosted verification, deployment, DNS, live payment, email, TTS and publication require separate authorization. Consult the current README before changing the customer flow.
+- Pushing `master` deploys production; check the real URL on desktop and mobile. Payment, secrets and customer-data changes in the app still get one reviewer pass before that effect.
 
 ## Shared workspace rules
 
