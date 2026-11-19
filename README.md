@@ -103,6 +103,11 @@ NODE_NO_WARNINGS=1 npm run demo:export -- ../bebebonjour-landing/public/demo
 The committed artifact keeps both `/demo/announcements/amal/fr/` and
 `/demo/announcements/bayane/fr/` reachable. `/demo` is not linked from the landing.
 
+## Fonts
+
+Newsreader and Instrument Sans (OFL) are self-hosted in `public/fonts/`. The proxied
+`/delivery` pages load the same files from `/fonts/`, so keep those paths stable.
+
 ## Deployment
 
 Pushing `master` deploys production on Vercel (`bebebonjour.com`). Check the

@@ -4,10 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="/favicon.ico" sizes="any" />
-    <title>Bébé Bonjour — Sa naissance, racontée à voix haute</title>
+    <title>Bébé Bonjour — Son prénom, révélé à la fin</title>
     <meta
       name="description"
-      content="Une page à son prénom, un texte écrit pour votre bébé et une voix qui le lit. En français ou en arabe, 39 € en une fois."
+      content="Une annonce de naissance lue à voix haute, phrase après phrase, qui révèle son prénom à la fin. En français ou en arabe, 39 € en une fois."
     />
     <meta name="theme-color" content="#f5f0e6" />
     <script type="module" src="/src/main.js"></script>
@@ -30,21 +30,35 @@
       <section class="hero" aria-labelledby="hero-title">
         <div class="hero-copy">
           <p class="eyebrow">Faire-part de naissance à écouter</p>
-          <h1 id="hero-title">Sa naissance, racontée à voix haute.</h1>
+          <h1 id="hero-title">Son prénom, révélé à la fin.</h1>
           <p class="hero-intro">
-            Une page à son prénom, un texte écrit pour votre bébé, et une voix qui le lit.
-            Vous envoyez le lien, vos proches l’ouvrent sur leur téléphone.
+            Une annonce lue à voix haute, phrase après phrase&nbsp;: la bonne nouvelle, vos vœux, ce que veut dire son prénom. Puis son prénom.
           </p>
           <div class="actions">
             <a class="button" href="/delivery">Commander mon annonce</a>
-            <button class="listen" type="button" data-listen aria-pressed="false">
-              <span class="listen-icon" aria-hidden="true" data-listen-icon>▶</span>
-              <span data-listen-label>Écouter l’annonce d’Amal</span>
-              <span class="listen-time">0:17</span>
-            </button>
           </div>
-          <audio data-example-audio preload="none" src="/exemple/amal/amal-fr.mp3"></audio>
           <p class="conditions">39&nbsp;€ en une fois · Français ou arabe · Voix incluse</p>
+          <div class="player-card">
+            <div class="chapter-bars" aria-hidden="true">
+              <span><span data-chapter-bar></span></span>
+              <span><span data-chapter-bar></span></span>
+              <span><span data-chapter-bar></span></span>
+            </div>
+            <div class="chapter-heading">
+              <span data-chapter-label>Une nouvelle présence</span>
+              <span data-chapter-number>1 / 3</span>
+            </div>
+            <p class="chapter-phrase" data-chapter-phrase>Sa présence emplit déjà nos jours de tendresse.</p>
+            <div class="player-controls">
+              <button class="listen" type="button" data-listen aria-pressed="false">
+                <span class="listen-icon" aria-hidden="true" data-listen-icon>▶</span>
+                <span data-listen-label>Écouter l’annonce d’Amal</span>
+              </button>
+              <span class="listen-time">0:17</span>
+            </div>
+            <audio data-example-audio preload="none" src="/exemple/amal/amal-fr.mp3"></audio>
+          </div>
+          <a class="example-link" href="/exemple/amal/">Voir sa page</a>
         </div>
 
         <figure class="example">
@@ -68,8 +82,7 @@
           <p class="eyebrow">Ce que vous recevez</p>
           <h2 id="offer-title">Une page, un texte, une voix.</h2>
           <p>
-            Tout tient dans un lien. Vos proches l’ouvrent, lisent son prénom et entendent
-            l’annonce, où qu’ils soient.
+            Tout tient dans un lien. Vos proches l’ouvrent, écoutent la bonne nouvelle, vos vœux, le sens de son prénom, puis découvrent son prénom.
           </p>
         </div>
         <div class="offer-card">
@@ -99,7 +112,7 @@
             <span>01</span>
             <div>
               <h3>Vous décrivez</h3>
-              <p>Son prénom, la langue de l’annonce et ce que vous aimeriez y dire.</p>
+              <p>Ce que vous voulez lui dire, ce que veut dire son prénom, puis son prénom et la langue.</p>
             </div>
           </li>
           <li>

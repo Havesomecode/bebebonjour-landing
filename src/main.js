@@ -19,6 +19,26 @@ if (listen && audio) {
   const label = listen.querySelector("[data-listen-label]");
   const icon = listen.querySelector("[data-listen-icon]");
   const idleLabel = label.textContent;
+  const chapters = [
+    ["Une nouvelle présence", "Sa présence emplit déjà nos jours de tendresse."],
+    ["Pour les jours à venir", "Nous lui souhaitons une vie entourée d’amour et de sérénité."],
+    ["Avec tout notre amour", "Bienvenue Amal, notre petite lumière."],
+  ];
+  const chapterLabel = document.querySelector("[data-chapter-label]");
+  const chapterNumber = document.querySelector("[data-chapter-number]");
+  const chapterPhrase = document.querySelector("[data-chapter-phrase]");
+  const bars = document.querySelectorAll("[data-chapter-bar]");
+  const updateProgress = () => {
+    const progress = Number.isFinite(audio.duration) && audio.duration > 0
+      ? Math.max(0, Math.min(1, audio.currentTime / audio.duration)) : 0;
+    const index = Math.min(2, Math.floor(progress * 3));
+    chapterLabel.textContent = chapters[index][0];
+    chapterNumber.textContent = `${index + 1} / 3`;
+    chapterPhrase.textContent = chapters[index][1];
+    bars.forEach((bar, i) => {
+      bar.style.width = `${Math.max(0, Math.min(1, progress * 3 - i)) * 100}%`;
+    });
+  };
 
   const render = (playing) => {
     listen.setAttribute("aria-pressed", String(playing));
@@ -37,10 +57,13 @@ if (listen && audio) {
       render(false);
     }
   });
+  audio.addEventListener("timeupdate", updateProgress);
+  audio.addEventListener("loadedmetadata", updateProgress);
   audio.addEventListener("play", () => render(true));
   audio.addEventListener("pause", () => render(false));
   audio.addEventListener("ended", () => {
     audio.currentTime = 0;
+    updateProgress();
     render(false);
   });
 }
