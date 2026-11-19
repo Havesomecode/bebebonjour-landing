@@ -32,15 +32,15 @@
   "rewrites": [
     {
       "source": "/delivery",
-      "destination": "https://tacit-antelope-577.convex.site/delivery"
+      "destination": "https://api-production-c9013a1c.up.railway.app/delivery"
     },
     {
       "source": "/delivery/:path*",
-      "destination": "https://tacit-antelope-577.convex.site/delivery/:path*"
+      "destination": "https://api-production-c9013a1c.up.railway.app/delivery/:path*"
     },
     {
       "source": "/announcements/:path*",
-      "destination": "https://tacit-antelope-577.convex.site/announcements/:path*"
+      "destination": "https://api-production-c9013a1c.up.railway.app/announcements/:path*"
     },
     {
       "source": "/demo",
