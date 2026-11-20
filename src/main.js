@@ -1,5 +1,56 @@
 import "./styles.css";
 
+const interestForm = document.querySelector("[data-interest-form]");
+const interestSuccess = document.querySelector("[data-interest-success]");
+if (interestForm && interestSuccess) {
+  const { email, consent, website } = interestForm.elements;
+  const error = interestForm.querySelector("[data-interest-error]");
+  const button = interestForm.querySelector('button[type="submit"]');
+  const messages = {
+    email: "Cette adresse ne semble pas complète.",
+    consent: "Cochez la case pour que nous puissions vous écrire.",
+    server: "Votre demande n'a pas pu être enregistrée. Réessayez dans un moment.",
+    rate: "Trop de demandes. Réessayez dans une heure.",
+  };
+  interestForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    if (button.disabled) return;
+    error.textContent = "";
+    email.removeAttribute("aria-invalid");
+    consent.removeAttribute("aria-invalid");
+    const showError = (kind) => {
+      error.textContent = messages[kind];
+      if (kind === "email" || kind === "consent") {
+        const field = kind === "email" ? email : consent;
+        field.setAttribute("aria-invalid", "true");
+        field.focus();
+      }
+    };
+    if (!email.value.trim() || !email.validity.valid) return showError("email");
+    if (!consent.checked) return showError("consent");
+    button.disabled = true;
+    try {
+      const response = await fetch('/interest/subscribe', {
+        method: 'POST', headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ email: email.value.trim(), consent: true, website: website.value, source: 'landing' }),
+      });
+      if (response.status === 429) return showError("rate");
+      const result = await response.json().catch(() => ({}));
+      if (response.status === 200 && result.ok === true) {
+        interestForm.hidden = true;
+        interestSuccess.hidden = false;
+        interestSuccess.focus();
+      } else if (response.status === 400 && (result.error === "email" || result.error === "consent")) {
+        showError(result.error);
+      } else showError("server");
+    } catch {
+      showError("server");
+    } finally {
+      button.disabled = false;
+    }
+  });
+}
+
 const header = document.querySelector("[data-header]");
 const year = document.querySelector("[data-year]");
 

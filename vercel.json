@@ -4,7 +4,7 @@
   "outputDirectory": "dist",
   "headers": [
     {
-      "source": "/((?!delivery(?:/|$)|announcements/).*)",
+      "source": "/((?!delivery(?:/|$)|announcements/|interest/).*)",
       "headers": [
         {
           "key": "Content-Security-Policy",
@@ -45,6 +45,18 @@
     {
       "source": "/demo",
       "destination": "/demo.html"
+    },
+    {
+      "source": "/interest/subscribe",
+      "destination": "https://api-production-c9013a1c.up.railway.app/interest/subscribe"
+    },
+    {
+      "source": "/interest/confirm",
+      "destination": "https://api-production-c9013a1c.up.railway.app/interest/confirm"
+    },
+    {
+      "source": "/interest/unsubscribe",
+      "destination": "https://api-production-c9013a1c.up.railway.app/interest/unsubscribe"
     },
     {
       "source": "/(.*)",

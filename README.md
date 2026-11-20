@@ -9,7 +9,7 @@ synthetic verification clients kept outside the public entrypoint.
   two corrections, 12 months online), paid once. Order flow shown to visitors:
   describe → we read the request → pay → the announcement arrives.
 - All four public CTAs use `/delivery`. Vercel proxies `/delivery/*` and `/announcements/*` to the owned
-  Convex intake at `https://tacit-antelope-577.convex.site`, so the form, order
+  Railway intake at `https://api-production-c9013a1c.up.railway.app`, so the form, order
   links and announcements stay on `bebebonjour.com`. Those pages send their own
   Content-Security-Policy; the landing one excludes them.
 - An operator reads every request before any generation; the customer pays €39
@@ -24,8 +24,10 @@ synthetic verification clients kept outside the public entrypoint.
 - The announcement is a non-indexed shareable capability: anyone with its link
   can view it. Email addresses and review links remain private. Never embed a
   customer capability, review URL, or operator URL in the public landing.
-- Existing first-party CSP headers and `/demo`/SPA rewrites remain unchanged;
-  navigating to the intake is a redirect, not a client-side API request.
+- The optional interest list posts to the same-origin `/interest/subscribe` proxy;
+  `/interest/confirm` and `/interest/unsubscribe` also proxy to Railway. The backend
+  owns confirmation, unsubscribe and retention; local tests stub the request.
+  Its pages send their own CSP. The landing CSP and `/demo`/SPA rewrites remain in place.
 
 ## Local-only customer flow
 

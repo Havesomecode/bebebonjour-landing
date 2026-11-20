@@ -80,20 +80,23 @@ test("internal operating notes keep the hosted boundary explicit", () => {
 
 test("release notes describe the paid, operator-read order path", () => {
   assert.match(readme, /All four public CTAs use `\/delivery`/i);
-  assert.match(readme, /https:\/\/tacit-antelope-577\.convex\.site/);
+  assert.match(readme, /https:\/\/api-production-c9013a1c\.up\.railway\.app/);
   assert.match(readme, /private Operations console is not a customer-facing status portal/i);
   assert.match(readme, /operator reads every request before any generation/i);
   assert.match(readme, /€39/);
 });
 
-test("delivery and announcements are proxied to the exact Convex origin on the same domain", () => {
-  const origin = "https://tacit-antelope-577.convex.site";
+test("delivery, announcements and interest routes proxy to the exact Railway origin on the same domain", () => {
+  const origin = "https://api-production-c9013a1c.up.railway.app";
   assert.equal(vercel.redirects, undefined);
   assert.deepEqual(vercel.rewrites, [
     { source: "/delivery", destination: `${origin}/delivery` },
     { source: "/delivery/:path*", destination: `${origin}/delivery/:path*` },
     { source: "/announcements/:path*", destination: `${origin}/announcements/:path*` },
     { source: "/demo", destination: "/demo.html" },
+    { source: "/interest/subscribe", destination: `${origin}/interest/subscribe` },
+    { source: "/interest/confirm", destination: `${origin}/interest/confirm` },
+    { source: "/interest/unsubscribe", destination: `${origin}/interest/unsubscribe` },
     { source: "/(.*)", destination: "/index.html" },
   ]);
 });

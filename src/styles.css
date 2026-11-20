@@ -513,6 +513,28 @@ h1 {
   outline-offset: 4px;
 }
 
+.interest {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(2rem, 7vw, 7rem);
+  border-top: 1px solid var(--rule);
+}
+.interest h2 { margin-bottom: 1rem; font-size: clamp(2.4rem, 4vw, 3.5rem); font-weight: 400; line-height: 1.1; }
+.interest-copy p, .interest-success { color: var(--ink-soft); line-height: 1.65; }
+.interest-label { display: block; margin-bottom: .5rem; font-weight: 600; }
+.interest input[type="email"] { width: 100%; min-height: 48px; padding: .75rem; border: 1px solid var(--line); border-radius: 8px; background: var(--card); color: var(--ink); font: inherit; }
+.interest-consent { display: flex; align-items: center; min-height: 44px; gap: .75rem; line-height: 1.5; cursor: pointer; }
+.interest-consent input { width: 22px; height: 22px; flex: 0 0 auto; accent-color: var(--forest); }
+.interest-honeypot { position: absolute; left: -10000px; width: 1px; height: 1px; }
+.interest-error { color: var(--clay); font-size: .9rem; margin: .4rem 0; }
+.interest-error:empty { margin: 0; }
+.interest-button { min-height: 48px; margin-top: 1rem; padding: .7rem 1.2rem; border: 1px solid var(--forest); border-radius: 12px; background: transparent; color: var(--forest); font: inherit; font-weight: 600; cursor: pointer; }
+.interest-button:hover { background: var(--sage); }
+.interest-button:disabled { opacity: .6; cursor: wait; }
+.interest-note { margin: 1rem 0 0; color: var(--ink-soft); font-size: .8rem; line-height: 1.6; }
+.interest :focus-visible, footer a:focus-visible { outline: 3px solid var(--forest); outline-offset: 4px; }
+@media (max-width: 860px) { .interest { grid-template-columns: 1fr; } }
+
 .closing {
   padding: clamp(5rem, 11vw, 10rem) 1.25rem;
   border-block: 1px solid var(--rule);
