@@ -31,7 +31,7 @@ test("public landing has one real intake path and a listenable real example", ()
   for (const [link] of intakeLinks) assert.doesNotMatch(link, /target=/);
   assert.doesNotMatch(publicSurface, /tally\.so/i);
   assert.match(html, /href="\/exemple\/amal\/"/);
-  assert.match(html, /<audio data-example-audio preload="none" src="\/exemple\/amal\/amal-fr\.mp3"><\/audio>/);
+  assert.match(html, /<audio data-example-audio preload="none" src="\/exemple\/amal\/recit-fr\.mp3"><\/audio>/);
   assert.match(html, /<button class="listen" type="button" data-listen/);
   assert.match(main, /audio\.play\(\)/);
   assert.doesNotMatch(html, /href="\/demo/);
@@ -82,30 +82,37 @@ test("self-hosted fonts are valid WOFF2 files", async () => {
   }
 });
 
-test("Amal player provides the three chapter phrases", () => {
-  for (const phrase of ["Sa présence emplit déjà nos jours de tendresse.", "Nous lui souhaitons une vie entourée d’amour et de sérénité.", "Bienvenue Amal, notre petite lumière."]) {
+test("Amal player shows the lines of the example page", async () => {
+  const example = await readFile(new URL("../public/exemple/amal/index.html", import.meta.url), "utf8");
+  for (const phrase of ["Il neigeait sur Lyon.", "Puisses-tu longtemps entendre la même comptine que Sami, cinq ans, te chante le soir.", "Mamie Fatima avait terminé ton bonnet jaune la veille de ta naissance."]) {
     assert.ok(main.includes(phrase));
+    assert.ok(example.includes(phrase));
   }
+  assert.doesNotMatch(main, /tendresse|petite lumière/);
+  const pageStarts = [...example.matchAll(/data-start="([\d.]+)"/g)].map((m) => Number(m[1]));
+  const playerStarts = [...main.matchAll(/\[([\d.]+), "/g)].map((m) => Number(m[1]));
+  assert.deepEqual(playerStarts, pageStarts.slice(0, playerStarts.length));
+  assert.equal(playerStarts.length, 9);
   assert.match(main, /textContent/);
   assert.match(main, /currentTime/);
   assert.match(main, /duration/);
 });
 
-test("player advances chapter thirds and resets after playback", async () => {
+test("player follows the narration line by line and resets after playback", async () => {
   const handlers = {};
   const label = { textContent: "Écouter l’annonce d’Amal" };
   const icon = { textContent: "▶" };
   const chapter = { textContent: "" };
   const number = { textContent: "" };
   const phrase = { textContent: "" };
-  const bars = Array.from({ length: 3 }, () => ({ style: {} }));
+  const bars = Array.from({ length: 5 }, () => ({ style: {} }));
   const listen = {
     querySelector: (selector) => selector === "[data-listen-label]" ? label : icon,
     setAttribute: (_name, value) => { listen.pressed = value; },
     addEventListener: (event, callback) => { handlers[`button:${event}`] = callback; },
   };
   const audio = {
-    duration: 90, currentTime: 0, paused: true,
+    duration: 28, currentTime: 0, paused: true,
     addEventListener: (event, callback) => { handlers[event] = callback; },
     play: async () => { audio.paused = false; handlers.play(); },
     pause: () => { audio.paused = true; handlers.pause(); },
@@ -119,20 +126,25 @@ test("player advances chapter thirds and resets after playback", async () => {
   await handlers["button:click"]();
   assert.equal(label.textContent, "Pause");
   assert.equal(listen.pressed, "true");
-  audio.currentTime = 45;
+  audio.currentTime = 3;
   handlers.timeupdate();
-  assert.equal(chapter.textContent, "Pour les jours à venir");
-  assert.equal(number.textContent, "2 / 3");
-  assert.equal(phrase.textContent, "Nous lui souhaitons une vie entourée d’amour et de sérénité.");
-  assert.deepEqual(bars.map((bar) => bar.style.width), ["100%", "50%", "0%"]);
-  audio.currentTime = 75;
+  assert.equal(chapter.textContent, "La bonne nouvelle");
+  assert.equal(number.textContent, "1 / 5");
+  assert.equal(phrase.textContent, "Il neigeait sur Lyon.");
+  audio.currentTime = 21;
   handlers.timeupdate();
-  assert.equal(phrase.textContent, "Bienvenue Amal, notre petite lumière.");
-  assert.deepEqual(bars.map((bar) => bar.style.width), ["100%", "100%", "50%"]);
+  assert.equal(number.textContent, "4 / 5");
+  assert.equal(phrase.textContent, "Amal");
+  assert.deepEqual(bars.slice(0, 3).map((bar) => bar.style.width), ["100%", "100%", "100%"]);
+  assert.equal(bars[4].style.width, "0%");
+  audio.currentTime = 27;
+  handlers.timeupdate();
+  assert.equal(phrase.textContent, "Mamie Fatima avait terminé ton bonnet jaune la veille de ta naissance.");
   handlers.ended();
-  assert.equal(number.textContent, "1 / 3");
+  assert.equal(number.textContent, "1 / 5");
+  assert.equal(phrase.textContent, "Tu es née le jeudi douze février, à l’aube.");
   assert.equal(label.textContent, "Écouter l’annonce d’Amal");
-  assert.deepEqual(bars.map((bar) => bar.style.width), ["0%", "0%", "0%"]);
+  assert.deepEqual(bars.map((bar) => bar.style.width), ["0%", "0%", "0%", "0%", "0%"]);
 });
 
 test("primary actions remain usable on touch and reduced-motion is explicit", () => {

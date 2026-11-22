@@ -26,7 +26,7 @@ test("public landing exposes no provider, operator, or hidden test controls", ()
 
 test("the Amal example is a static, non-indexed copy with no private capability", async () => {
   const example = await readFile(new URL("../public/exemple/amal/index.html", import.meta.url), "utf8");
-  const audio = await readFile(new URL("../public/exemple/amal/amal-fr.mp3", import.meta.url));
+  const audio = await readFile(new URL("../public/exemple/amal/recit-fr.mp3", import.meta.url));
   assert.match(example, /<meta name="robots" content="noindex, nofollow">/);
   assert.match(example, /<script src="\/exemple\/amal\/announcement\.js"><\/script>/);
   assert.doesNotMatch(example, /<script>|convex|\/announcements\/|[a-f0-9]{64}/i);

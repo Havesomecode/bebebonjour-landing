@@ -70,24 +70,31 @@ if (listen && audio) {
   const label = listen.querySelector("[data-listen-label]");
   const icon = listen.querySelector("[data-listen-icon]");
   const idleLabel = label.textContent;
+  // The lines of /exemple/amal/ and the second each one starts in recit-fr.mp3 (generator phraseStarts).
   const chapters = [
-    ["Une nouvelle présence", "Sa présence emplit déjà nos jours de tendresse."],
-    ["Pour les jours à venir", "Nous lui souhaitons une vie entourée d’amour et de sérénité."],
-    ["Avec tout notre amour", "Bienvenue Amal, notre petite lumière."],
+    ["La bonne nouvelle", [[0, "Tu es née le jeudi douze février, à l’aube."], [2.928, "Il neigeait sur Lyon."], [4.584, "Nous t’avons accueillie à la maternité de la Croix-Rousse."]]],
+    ["Nos vœux", [[8.352, "Puisses-tu longtemps entendre la même comptine que Sami, cinq ans, te chante le soir."]]],
+    ["Le sens de son prénom", [[13.56, "En arabe, notre choix signifie l’espérance."]]],
+    ["Son prénom", [[17.472, "Notre fille née à l’aube s’appelle…"], [20.88, "Amal"]]],
+    ["Avec tout notre amour", [[22.512, "Bienvenue, Amal."], [24.24, "Mamie Fatima avait terminé ton bonnet jaune la veille de ta naissance."]]],
   ];
   const chapterLabel = document.querySelector("[data-chapter-label]");
   const chapterNumber = document.querySelector("[data-chapter-number]");
   const chapterPhrase = document.querySelector("[data-chapter-phrase]");
   const bars = document.querySelectorAll("[data-chapter-bar]");
   const updateProgress = () => {
-    const progress = Number.isFinite(audio.duration) && audio.duration > 0
-      ? Math.max(0, Math.min(1, audio.currentTime / audio.duration)) : 0;
-    const index = Math.min(2, Math.floor(progress * 3));
+    const time = audio.currentTime;
+    const end = Number.isFinite(audio.duration) && audio.duration > 0 ? audio.duration : Infinity;
+    const starts = chapters.map(([, lines]) => lines[0][0]);
+    let index = 0;
+    while (index + 1 < chapters.length && starts[index + 1] <= time) index++;
+    const lines = chapters[index][1];
     chapterLabel.textContent = chapters[index][0];
-    chapterNumber.textContent = `${index + 1} / 3`;
-    chapterPhrase.textContent = chapters[index][1];
+    chapterNumber.textContent = `${index + 1} / ${chapters.length}`;
+    chapterPhrase.textContent = lines.filter(([start]) => start <= time).at(-1)?.[1] ?? lines[0][1];
     bars.forEach((bar, i) => {
-      bar.style.width = `${Math.max(0, Math.min(1, progress * 3 - i)) * 100}%`;
+      const from = starts[i], to = starts[i + 1] ?? end;
+      bar.style.width = `${Math.max(0, Math.min(1, (time - from) / (to - from))) * 100}%`;
     });
   };
 
