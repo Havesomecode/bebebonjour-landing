@@ -1,6 +1,6 @@
 # Bébé Bonjour landing
 
-First-party Vite landing for bebebonjour.com. `index.html` and `src/main.js` are the public entry; `demo.html`, `src/demo*.js`, `src/demo.css`, and `public/demo/` provide a synthetic workflow demo. `public/exemple/amal/` is the public example linked from the landing (static copy of a real generated announcement). `src/fulfillment-client.js` is a dormant compatibility client. Styles are in `src/styles.css`; tests are in `test/`. `vite.config.js` builds both HTML entries; `vercel.json` defines headers, redirects and rewrites. `openspec/` contains change documentation.
+First-party Vite landing for bebebonjour.com. `index.html` and `src/main.js` are the public entry; `demo.html`, `src/demo*.js`, `src/demo.css`, and `public/demo/` provide a synthetic workflow demo. `public/exemple/amal/` is the public example linked from the landing: a static copy of a real generated announcement (bebebonjour-app renderer, fr + ar narration `recit-*.mp3`), with its inline script moved to `announcement.js` and its data: fonts pointed at `/fonts/` to fit the site CSP. The hero player still uses the older `amal-fr.mp3`. `src/fulfillment-client.js` is a dormant compatibility client. Styles are in `src/styles.css`; tests are in `test/`. `vite.config.js` builds both HTML entries; `vercel.json` defines headers, redirects and rewrites. `openspec/` contains change documentation.
 
 ## Development and verification
 
