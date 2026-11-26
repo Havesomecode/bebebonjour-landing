@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /demo
+Disallow: /interest/
+
+Sitemap: https://www.bebebonjour.com/sitemap.xml

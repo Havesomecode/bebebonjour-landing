@@ -35,6 +35,17 @@ test("the Amal example is a static, non-indexed copy with no private capability"
   assert.ok(audio.length > 100_000);
 });
 
+test("robots.txt points to a sitemap of indexable pages only", async () => {
+  const robots = await readFile(new URL("../public/robots.txt", import.meta.url), "utf8");
+  const sitemap = await readFile(new URL("../public/sitemap.xml", import.meta.url), "utf8");
+  assert.match(robots, /^User-agent: \*$/m);
+  assert.match(robots, /^Sitemap: https:\/\/www\.bebebonjour\.com\/sitemap\.xml$/m);
+  assert.doesNotMatch(robots, /announcements/, "noindex must stay readable by crawlers");
+  const urls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
+  assert.deepEqual(urls, ["https://www.bebebonjour.com/", "https://www.bebebonjour.com/confidentialite/"]);
+  assert.match(sitemap, /^<\?xml version="1\.0" encoding="UTF-8"\?>\n<urlset xmlns="http:\/\/www\.sitemaps\.org\/schemas\/sitemap\/0\.9">/);
+});
+
 test("dormant hosted client remains pinned but is absent from the public bundle entry", () => {
   assert.match(fulfillmentClient, new RegExp(
     `const CANONICAL_HOSTED_API_BASE_URL = ${JSON.stringify(`${hostedOrigin}/api/customer-flow`)}`,

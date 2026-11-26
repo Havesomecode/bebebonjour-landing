@@ -28,6 +28,11 @@ synthetic verification clients kept outside the public entrypoint.
   `/interest/confirm` and `/interest/unsubscribe` also proxy to Railway. The backend
   owns confirmation, unsubscribe and retention; local tests stub the request.
   Its pages send their own CSP. The landing CSP and `/demo`/SPA rewrites remain in place.
+- `public/robots.txt` and `public/sitemap.xml` are real files (served before the SPA
+  rewrite). The sitemap lists only indexable pages on the canonical host
+  `https://www.bebebonjour.com` (the apex redirects there): `/` and `/confidentialite/`.
+  The Amal example, `/demo` and announcements stay out; robots.txt blocks `/demo` and
+  `/interest/` but not `/announcements/`, so crawlers can still read their `noindex`.
 
 ## Local-only customer flow
 
