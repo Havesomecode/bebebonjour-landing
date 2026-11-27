@@ -42,7 +42,7 @@ test("robots.txt points to a sitemap of indexable pages only", async () => {
   assert.match(robots, /^Sitemap: https:\/\/www\.bebebonjour\.com\/sitemap\.xml$/m);
   assert.doesNotMatch(robots, /announcements/, "noindex must stay readable by crawlers");
   const urls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
-  assert.deepEqual(urls, ["https://www.bebebonjour.com/", "https://www.bebebonjour.com/confidentialite/"]);
+  assert.deepEqual(urls, ["https://www.bebebonjour.com/", "https://www.bebebonjour.com/confidentialite/", ...["adam", "mohamed", "inaya", "noor", "lina"].map((name) => `https://www.bebebonjour.com/prenoms/${name}/`)]);
   assert.match(sitemap, /^<\?xml version="1\.0" encoding="UTF-8"\?>\n<urlset xmlns="http:\/\/www\.sitemaps\.org\/schemas\/sitemap\/0\.9">/);
 });
 

@@ -1,0 +1,294 @@
+{
+  "noor": {
+    "canonical": {
+      "latin": "Noor",
+      "arabic": "نور"
+    },
+    "aliases": {
+      "latin": [
+        "Nour",
+        "Nur",
+        "Noûr"
+      ],
+      "arabic": []
+    },
+    "general": [
+      {
+        "id": "general-noor",
+        "label": "Noor with light-centered wishes",
+        "basis": "general",
+        "confidence": "high",
+        "meaning": {
+          "fr": "la lumière et l'éclat",
+          "ar": "الضياء والإشراق"
+        },
+        "verses": {
+          "ar": [],
+          "fr": []
+        },
+        "meaningSourceKeys": [
+          "behindthename:nur"
+        ]
+      }
+    ],
+    "gender": "girl",
+    "origin": "arabic",
+    "sources": {
+      "behindthename:nur": "https://www.behindthename.com/name/nur",
+      "quran-24-35": "https://quran.com/24/35"
+    },
+    "religious": {
+      "islam": [
+        {
+          "id": "religious-noor",
+          "label": "Noor with Quranic references",
+          "basis": "religious:islam",
+          "confidence": "high",
+          "meaning": {
+            "fr": "la lumière et l'éclat",
+            "ar": "الضياء والإشراق"
+          },
+          "meaningSourceKeys": [
+            "behindthename:nur"
+          ],
+          "verses": {
+            "ar": [
+              {
+                "quote": "اللَّهُ نُورُ السَّمَاوَاتِ وَالْأَرْضِ",
+                "reference": "النور: ٣٥",
+                "sourceKey": "quran-24-35"
+              }
+            ],
+            "fr": [
+              {
+                "quote": "Allah est la Lumière des cieux et de la terre.",
+                "reference": "Sourate An-Nur, 24:35",
+                "sourceArabic": "اللَّهُ نُورُ السَّمَاوَاتِ وَالْأَرْضِ",
+                "sourceKey": "quran-24-35"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "adam": {
+    "canonical": {
+      "latin": "Adam",
+      "arabic": "آدم"
+    },
+    "aliases": {
+      "latin": [],
+      "arabic": []
+    },
+    "gender": "boy",
+    "origin": "hebrew",
+    "sources": {
+      "behindthename:adam": "https://www.behindthename.com/name/adam",
+      "quran-2-31": "https://quran.com/2/31"
+    },
+    "general": [
+      {
+        "id": "general-adam",
+        "label": "Adam with its sourced meaning",
+        "basis": "general",
+        "confidence": "high",
+        "meaning": {
+          "fr": "l'homme, le premier des humains",
+          "ar": "الإنسان، أول البشر"
+        },
+        "meaningSourceKeys": [
+          "behindthename:adam"
+        ],
+        "verses": {
+          "ar": [],
+          "fr": []
+        }
+      }
+    ],
+    "religious": {
+      "islam": [
+        {
+          "id": "religious-adam",
+          "label": "Adam with Quranic references",
+          "basis": "religious:islam",
+          "confidence": "high",
+          "meaning": {
+            "fr": "l'homme, le premier des humains",
+            "ar": "الإنسان، أول البشر"
+          },
+          "meaningSourceKeys": [
+            "behindthename:adam"
+          ],
+          "verses": {
+            "ar": [
+              {
+                "quote": "وَعَلَّمَ آدَمَ الْأَسْمَاءَ كُلَّهَا",
+                "reference": "البقرة: ٣١",
+                "sourceKey": "quran-2-31"
+              }
+            ],
+            "fr": [
+              {
+                "quote": "Et Il apprit à Adam tous les noms (de toutes choses)",
+                "reference": "Sourate Al-Baqarah, 2:31",
+                "sourceArabic": "وَعَلَّمَ آدَمَ الْأَسْمَاءَ كُلَّهَا",
+                "sourceKey": "quran-2-31"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "muhammad": {
+    "canonical": {
+      "latin": "Mohamed",
+      "arabic": "محمد"
+    },
+    "aliases": {
+      "latin": [
+        "Muhammad",
+        "Mohammed",
+        "Mohammad",
+        "Mohamad",
+        "Mouhamed"
+      ],
+      "arabic": []
+    },
+    "gender": "boy",
+    "origin": "arabic",
+    "sources": {
+      "behindthename:muhammad": "https://www.behindthename.com/name/muhammad",
+      "quran-48-29": "https://quran.com/48/29"
+    },
+    "general": [
+      {
+        "id": "general-muhammad",
+        "label": "Mohamed with its sourced meaning",
+        "basis": "general",
+        "confidence": "high",
+        "meaning": {
+          "fr": "loué, digne d'éloges",
+          "ar": "المحمود الجدير بالثناء"
+        },
+        "meaningSourceKeys": [
+          "behindthename:muhammad"
+        ],
+        "verses": {
+          "ar": [],
+          "fr": []
+        }
+      }
+    ],
+    "religious": {
+      "islam": [
+        {
+          "id": "religious-muhammad",
+          "label": "Mohamed with Quranic references",
+          "basis": "religious:islam",
+          "confidence": "high",
+          "meaning": {
+            "fr": "loué, digne d'éloges",
+            "ar": "المحمود الجدير بالثناء"
+          },
+          "meaningSourceKeys": [
+            "behindthename:muhammad"
+          ],
+          "verses": {
+            "ar": [
+              {
+                "quote": "مُّحَمَّدٌ رَّسُولُ اللَّهِ",
+                "reference": "الفتح: ٢٩",
+                "sourceKey": "quran-48-29"
+              }
+            ],
+            "fr": [
+              {
+                "quote": "Mohammed est le Messager d’Allah.",
+                "reference": "Sourate Al-Fath, 48:29",
+                "sourceArabic": "مُّحَمَّدٌ رَّسُولُ اللَّهِ",
+                "sourceKey": "quran-48-29"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "inaya": {
+    "canonical": {
+      "latin": "Inaya",
+      "arabic": "عناية"
+    },
+    "aliases": {
+      "latin": [
+        "Inaïa",
+        "Inaïya",
+        "Inayah"
+      ],
+      "arabic": []
+    },
+    "gender": "girl",
+    "origin": "arabic",
+    "sources": {
+      "behindthename:inaya": "https://www.behindthename.com/name/inaya"
+    },
+    "general": [
+      {
+        "id": "general-inaya",
+        "label": "Inaya with its sourced meaning",
+        "basis": "general",
+        "confidence": "high",
+        "meaning": {
+          "fr": "le soin, l'attention",
+          "ar": "الرعاية والاهتمام"
+        },
+        "meaningSourceKeys": [
+          "behindthename:inaya"
+        ],
+        "verses": {
+          "ar": [],
+          "fr": []
+        }
+      }
+    ]
+  },
+  "lina": {
+    "canonical": {
+      "latin": "Lina",
+      "arabic": "لينا"
+    },
+    "aliases": {
+      "latin": [
+        "Leena",
+        "Lyna"
+      ],
+      "arabic": []
+    },
+    "gender": "girl",
+    "origin": "arabic",
+    "sources": {
+      "behindthename:lina-1": "https://www.behindthename.com/name/lina-1"
+    },
+    "general": [
+      {
+        "id": "general-lina",
+        "label": "Lina with its sourced meaning",
+        "basis": "general",
+        "confidence": "high",
+        "meaning": {
+          "fr": "douce, tendre",
+          "ar": "الليّنة الرقيقة"
+        },
+        "meaningSourceKeys": [
+          "behindthename:lina-1"
+        ],
+        "verses": {
+          "ar": [],
+          "fr": []
+        }
+      }
+    ]
+  }
+}

@@ -30,7 +30,12 @@ synthetic verification clients kept outside the public entrypoint.
   Its pages send their own CSP. The landing CSP and `/demo`/SPA rewrites remain in place.
 - `public/robots.txt` and `public/sitemap.xml` are real files (served before the SPA
   rewrite). The sitemap lists only indexable pages on the canonical host
-  `https://www.bebebonjour.com` (the apex redirects there): `/` and `/confidentialite/`.
+  `https://www.bebebonjour.com` (the apex redirects there): `/`, `/confidentialite/` and the five `/prenoms/` pages.
+  Name-page drafts live in `content/prenoms/*.md`; run `npm run prenoms` to generate
+  `public/prenoms/`; use `node scripts/prenoms.mjs --check` to check for drift.
+  Verses come from `content/prenoms/catalog-excerpt.json`, copied from
+  `bebebonjour-app` catalog commit `82e2b6a`; Arabic quotes are taken byte-for-byte
+  from the excerpt after checking the drafts against it.
   The Amal example, `/demo` and announcements stay out; robots.txt blocks `/demo` and
   `/interest/` but not `/announcements/`, so crawlers can still read their `noindex`.
 

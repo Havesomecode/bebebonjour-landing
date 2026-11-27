@@ -1,0 +1,31 @@
+@font-face { font-family: Newsreader; src: url('/fonts/newsreader.woff2') format('woff2'); font-weight: 200 800; font-display: swap; }
+@font-face { font-family: Newsreader; src: url('/fonts/newsreader-italic.woff2') format('woff2'); font-style: italic; font-weight: 200 800; font-display: swap; }
+@font-face { font-family: 'Instrument Sans'; src: url('/fonts/instrument-sans.woff2') format('woff2'); font-weight: 400 700; font-display: swap; }
+@font-face { font-family: Amiri; src: url('/fonts/amiri-arabic.woff2') format('woff2'); font-display: swap; }
+:root { --paper: #f5f0e6; --card: #fffdf8; --ink: #20251f; --muted: #575b52; --forest: #2f5443; --clay: #94432f; --rule: #e2dbcb; color: var(--ink); background: var(--paper); font-family: 'Instrument Sans', sans-serif; }
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; }
+a { color: var(--forest); text-underline-offset: .18em; }
+a:focus-visible { outline: 2px solid var(--clay); outline-offset: 4px; }
+.site-header { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1rem clamp(1.25rem, 4vw, 4rem); border-bottom: 1px solid var(--rule); }
+.wordmark { font: 400 1.55rem Newsreader, Georgia, serif; color: var(--ink); text-decoration: none; white-space: nowrap; }
+.wordmark span { color: var(--clay); }
+.button { display: inline-flex; align-items: center; justify-content: center; background: var(--forest); color: white; border-radius: 999px; padding: .8rem 1.25rem; font-size: .85rem; font-weight: 600; text-decoration: none; }
+.button:hover { background: #234338; }
+main { padding: clamp(3rem, 7vw, 6rem) 1.25rem; }
+article { max-width: 720px; margin: 0 auto; font-size: 1.06rem; line-height: 1.8; overflow-wrap: break-word; }
+h1, h2 { font-family: Newsreader, Georgia, serif; font-weight: 400; line-height: 1.12; }
+h1 { font-size: clamp(2.6rem, 6vw, 4.6rem); letter-spacing: -.035em; margin: 0 0 1.7rem; }
+h2 { font-size: clamp(1.8rem, 3.5vw, 2.5rem); margin: 2.5rem 0 .8rem; }
+p { margin: 0 0 1.1rem; }
+ul { padding-left: 1.35rem; margin: 1rem 0 1.5rem; }
+li { padding-left: .25rem; margin-bottom: .6rem; }
+[lang=ar] { font-family: Amiri, serif; }
+span[lang=ar] { font-size: 1.2em; line-height: 1; }
+blockquote { margin: 1.6rem 0; padding: clamp(1.35rem, 4vw, 2.25rem); border: 1px solid var(--rule); border-radius: 1rem; background: var(--card); }
+.verse-ar { font-size: clamp(1.8rem, 5vw, 2.5rem); line-height: 1.8; color: var(--forest); }
+.verse-fr { font-family: Newsreader, Georgia, serif; font-size: 1.35rem; line-height: 1.5; }
+cite { display: block; color: var(--muted); font-size: .82rem; font-style: normal; }
+footer { border-top: 1px solid var(--rule); padding: 2.5rem clamp(1.25rem, 4vw, 4rem); color: var(--muted); font-size: .85rem; line-height: 1.7; }
+footer .wordmark { display: inline-block; margin-bottom: 1rem; }
+footer p { margin-bottom: .5rem; }

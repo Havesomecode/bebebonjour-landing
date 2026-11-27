@@ -10,6 +10,7 @@
     "dev": "vite --host 127.0.0.1",
     "dev:local": "VITE_FULFILLMENT_API_BASE_URL=http://127.0.0.1:8787 vite --host 127.0.0.1",
     "build": "vite build",
+    "prenoms": "node scripts/prenoms.mjs",
     "preview": "vite preview",
     "test": "node --test",
     "verify": "npm test && npm run build && npm audit"
